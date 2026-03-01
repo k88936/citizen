@@ -1,4 +1,5 @@
 use clap::{Parser, Subcommand};
+use clap_complete::Shell;
 
 #[derive(Parser)]
 #[command(name = "citizen")]
@@ -53,6 +54,10 @@ pub enum Commands {
         #[command(subcommand)]
         command: AgentCommands,
     },
+    Interactive,
+    Completion {
+        shell: Shell,
+    },
 }
 
 #[derive(Subcommand)]
@@ -83,8 +88,8 @@ pub enum BuildCommands {
     },
 
     Trigger {
-        #[arg(short, long, required = true)]
-        build_type: String,
+        #[arg(short, long)]
+        build_type: Option<String>,
 
         #[arg(short = 'B', long)]
         branch: Option<String>,
@@ -100,6 +105,9 @@ pub enum BuildCommands {
 
         #[arg(long)]
         watch: bool,
+
+        #[arg(short, long)]
+        interactive: bool,
     },
 
     Cancel {

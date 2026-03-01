@@ -2,10 +2,12 @@ mod cli;
 mod client;
 mod commands;
 mod config;
+mod interactive;
 mod output;
 
 use anyhow::Result;
-use clap::Parser;
+use clap::{CommandFactory, Parser};
+use clap_complete::generate;
 use cli::Commands;
 
 #[tokio::main]
@@ -39,6 +41,12 @@ async fn main() -> Result<()> {
         }
         Commands::Agent { command } => {
             commands::handle_agent_command(&client, command, args.output).await?;
+        }
+        Commands::Interactive => {
+            interactive::run_interactive_mode(&client).await?;
+        }
+        Commands::Completion { shell } => {
+            generate(shell, &mut cli::Cli::command(), "citizen", &mut std::io::stdout());
         }
     }
 

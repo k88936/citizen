@@ -20,11 +20,12 @@ pub struct BuildGetArgs {
 }
 
 pub struct BuildTriggerArgs {
-    pub build_type: String,
+    pub build_type: Option<String>,
     pub branch: Option<String>,
     pub parameter: Vec<String>,
     pub wait: bool,
     pub watch: bool,
+    pub interactive: bool,
 }
 
 pub struct BuildCancelArgs {
@@ -97,6 +98,7 @@ pub async fn handle_build_command(
             parameter,
             wait,
             watch,
+            interactive,
         } => {
             handle_build_trigger(
                 client,
@@ -106,6 +108,7 @@ pub async fn handle_build_command(
                     parameter,
                     wait,
                     watch,
+                    interactive,
                 },
                 output_format,
             )
@@ -241,8 +244,26 @@ async fn handle_build_trigger(
     args: BuildTriggerArgs,
     output_format: crate::cli::OutputFormat,
 ) -> Result<()> {
+    let build_type_id = if args.interactive {
+        let selected = crate::interactive::select_build_type_interactive(client, None).await?;
+        match selected {
+            Some(bt) => bt.id,
+            None => {
+                println!("No build type selected.");
+                return Ok(());
+            }
+        }
+    } else {
+        match &args.build_type {
+            Some(bt) => bt.clone(),
+            None => {
+                anyhow::bail!("--build-type is required when not using --interactive mode");
+            }
+        }
+    };
+
     let mut build = Build::default();
-    build.build_type_id = Some(args.build_type.clone());
+    build.build_type_id = Some(build_type_id.clone());
 
     if let Some(branch) = &args.branch {
         build.branch_name = Some(branch.clone());
