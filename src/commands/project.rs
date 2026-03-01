@@ -1,7 +1,7 @@
 use anyhow::{Context, Result};
 use api::apis::build_type_api;
 use api::apis::project_api;
-
+use api::models::Projects;
 use crate::client::TeamCityClient;
 use crate::output;
 
@@ -77,25 +77,22 @@ async fn handle_project_list(
     args: ProjectListArgs,
     output_format: crate::cli::OutputFormat,
 ) -> Result<()> {
-    let mut locator_parts = Vec::new();
 
-    if let Some(parent) = &args.parent {
-        locator_parts.push(format!("parent:(id:{})", parent));
-    }
+    let projects = if let Some(parent) = &args.parent {
+        project_api::get_project(&client.config,parent, None)
+            .await
+            .map(|project| match project.projects {
+                None => Projects::default(),
+                Some(val) => *val,
+            })
+            .context("Failed to fetch subprojects")?
 
-    if !args.archived {
-        locator_parts.push("archived:false".to_string());
-    }
-
-    let locator = if locator_parts.is_empty() {
-        None
     } else {
-        Some(locator_parts.join(","))
+        let locator = if args.archived { None } else { Some("archived:false") };
+        project_api::get_all_projects(&client.config, locator, None)
+            .await
+            .context("Failed to fetch projects")?
     };
-
-    let projects = project_api::get_all_projects(&client.config, locator.as_deref(), None)
-        .await
-        .context("Failed to fetch projects")?;
 
     match output_format {
         crate::cli::OutputFormat::Human => {
