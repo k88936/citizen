@@ -1,3 +1,37 @@
-fn main() {
-    println!("Hello, world!");
+mod cli;
+mod client;
+mod commands;
+mod config;
+mod output;
+
+use anyhow::Result;
+use clap::Parser;
+use cli::Commands;
+
+#[tokio::main]
+async fn main() -> Result<()> {
+    let args = cli::Cli::parse();
+
+    let config = config::Config::load()?;
+    let (server_url, token) = config.resolve(
+        args.server.as_deref(),
+        args.token.as_deref(),
+        args.profile.as_deref(),
+    );
+
+    let client = client::TeamCityClient::new(&server_url, &token)?;
+
+    match args.command {
+        Commands::Build { command } => {
+            commands::handle_build_command(&client, command, args.output).await?;
+        }
+        Commands::Server { command } => {
+            commands::handle_server_command(&client, command, args.output).await?;
+        }
+        Commands::Queue { command } => {
+            commands::handle_queue_command(&client, command, args.output).await?;
+        }
+    }
+
+    Ok(())
 }
