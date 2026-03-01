@@ -54,6 +54,7 @@ pub enum Commands {
         #[command(subcommand)]
         command: AgentCommands,
     },
+    #[command(alias = "i")]
     Interactive,
     Completion {
         shell: Shell,
@@ -170,14 +171,6 @@ pub enum ArtifactCommands {
     List {
         #[arg(short, long)]
         path: Option<String>,
-    },
-
-    Download {
-        #[arg(required = true)]
-        path: String,
-
-        #[arg(short, long, default_value = ".")]
-        output: String,
     },
 }
 
