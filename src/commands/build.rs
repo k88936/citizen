@@ -438,12 +438,23 @@ async fn handle_build_log(client: &TeamCityClient, args: BuildLogArgs) -> Result
     );
 
     if args.download {
-        println!("Log download URL: {}", log_url);
-        println!("Use curl or wget to download:");
-        println!(
-            "  curl -H \"Authorization: Bearer $TOKEN\" \"{}\" -o build_{}.log",
-            log_url, args.build_id
-        );
+        let response = client
+            .config
+            .client
+            .get(&log_url)
+            .send()
+            .await
+            .context("Failed to download build log")?;
+
+        let log_content = response
+            .text()
+            .await
+            .context("Failed to read log content")?;
+
+        let output_file = format!("build_{}.log", args.build_id);
+        std::fs::write(&output_file, &log_content).context("Failed to write log file")?;
+
+        println!("Downloaded build log to {}", output_file);
         return Ok(());
     }
 
