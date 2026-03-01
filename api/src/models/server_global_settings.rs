@@ -14,30 +14,6 @@ use serde::{Deserialize, Serialize};
 /// ServerGlobalSettings : Stores global TeamCity server settings that affect all projects on this server. These settings are accessible via TeamCity UI from the **Admin | Global Settings** page. Use the `/app/rest/server/globalSettings` to view and edit these settings.
 #[derive(Clone, Default, Debug, PartialEq, Serialize, Deserialize)]
 pub struct ServerGlobalSettings {
-    /// The TeamCity server URL.
-    #[serde(rename = "rootUrl", skip_serializing_if = "Option::is_none")]
-    pub root_url: Option<String>,
-    /// Returns the encryption key. This property is hidden from the payload.
-    #[serde(rename = "encryptionKey", skip_serializing_if = "Option::is_none")]
-    pub encryption_key: Option<String>,
-    /// A String containing the concatenated paths to the artifact directories used by the server. Paths are separated using the new line characters.
-    #[serde(rename = "artifactDirectories", skip_serializing_if = "Option::is_none")]
-    pub artifact_directories: Option<String>,
-    /// The delay (in seconds) between a moment TeamCity detects a new VCS change and a moment a new build processing this change starts. Individual build configuration triggers can override this global setting.
-    #[serde(rename = "defaultQuietPeriod", skip_serializing_if = "Option::is_none")]
-    pub default_quiet_period: Option<i32>,
-    /// The maximum allowed build duration. Zero or negative values mean no time limit.
-    #[serde(rename = "defaultExecutionTimeout", skip_serializing_if = "Option::is_none")]
-    pub default_execution_timeout: Option<i32>,
-    /// If `artifactsDomainIsolation` is set to **true**, this property returns the URL of the artifacts isolation domain.
-    #[serde(rename = "artifactsUrl", skip_serializing_if = "Option::is_none")]
-    pub artifacts_url: Option<String>,
-    /// The maximum number of artifacts that can be published per build, or `-1` if there is no limit. This number does not include hidden artifacts.
-    #[serde(rename = "maxArtifactsNumber", skip_serializing_if = "Option::is_none")]
-    pub max_artifacts_number: Option<i64>,
-    /// The maximum allowed artifact size (in bytes), or `-1` if there is no size limit. Artifacts that exceed these limit will not be published.
-    #[serde(rename = "maxArtifactSize", skip_serializing_if = "Option::is_none")]
-    pub max_artifact_size: Option<i64>,
     /// An Integer value that specifies how often (in seconds) TeamCity polls VCS repositories for changes. The default value is 60 seconds.
     #[serde(rename = "defaultVCSCheckInterval", skip_serializing_if = "Option::is_none")]
     pub default_vcs_check_interval: Option<i32>,
@@ -50,24 +26,48 @@ pub struct ServerGlobalSettings {
     /// **true** if TeamCity publishes build artifacts to a separate domain; **false** if the artifacts can be accessed from the regular TeamCity server URL.
     #[serde(rename = "artifactsDomainIsolation", skip_serializing_if = "Option::is_none")]
     pub artifacts_domain_isolation: Option<bool>,
+    /// If `artifactsDomainIsolation` is set to **true**, this property returns the URL of the artifacts isolation domain.
+    #[serde(rename = "artifactsUrl", skip_serializing_if = "Option::is_none")]
+    pub artifacts_url: Option<String>,
+    /// Returns the encryption key. This property is hidden from the payload.
+    #[serde(rename = "encryptionKey", skip_serializing_if = "Option::is_none")]
+    pub encryption_key: Option<String>,
+    /// A String containing the concatenated paths to the artifact directories used by the server. Paths are separated using the new line characters.
+    #[serde(rename = "artifactDirectories", skip_serializing_if = "Option::is_none")]
+    pub artifact_directories: Option<String>,
+    /// The TeamCity server URL.
+    #[serde(rename = "rootUrl", skip_serializing_if = "Option::is_none")]
+    pub root_url: Option<String>,
+    /// The delay (in seconds) between a moment TeamCity detects a new VCS change and a moment a new build processing this change starts. Individual build configuration triggers can override this global setting.
+    #[serde(rename = "defaultQuietPeriod", skip_serializing_if = "Option::is_none")]
+    pub default_quiet_period: Option<i32>,
+    /// The maximum allowed build duration. Zero or negative values mean no time limit.
+    #[serde(rename = "defaultExecutionTimeout", skip_serializing_if = "Option::is_none")]
+    pub default_execution_timeout: Option<i32>,
+    /// The maximum number of artifacts that can be published per build, or `-1` if there is no limit. This number does not include hidden artifacts.
+    #[serde(rename = "maxArtifactsNumber", skip_serializing_if = "Option::is_none")]
+    pub max_artifacts_number: Option<i64>,
+    /// The maximum allowed artifact size (in bytes), or `-1` if there is no size limit. Artifacts that exceed these limit will not be published.
+    #[serde(rename = "maxArtifactSize", skip_serializing_if = "Option::is_none")]
+    pub max_artifact_size: Option<i64>,
 }
 
 impl ServerGlobalSettings {
     /// Stores global TeamCity server settings that affect all projects on this server. These settings are accessible via TeamCity UI from the **Admin | Global Settings** page. Use the `/app/rest/server/globalSettings` to view and edit these settings.
     pub fn new() -> ServerGlobalSettings {
         ServerGlobalSettings {
-            root_url: None,
-            encryption_key: None,
-            artifact_directories: None,
-            default_quiet_period: None,
-            default_execution_timeout: None,
-            artifacts_url: None,
-            max_artifacts_number: None,
-            max_artifact_size: None,
             default_vcs_check_interval: None,
             enforce_default_vcs_check_interval: None,
             use_encryption: None,
             artifacts_domain_isolation: None,
+            artifacts_url: None,
+            encryption_key: None,
+            artifact_directories: None,
+            root_url: None,
+            default_quiet_period: None,
+            default_execution_timeout: None,
+            max_artifacts_number: None,
+            max_artifact_size: None,
         }
     }
 }

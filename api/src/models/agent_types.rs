@@ -14,9 +14,6 @@ use serde::{Deserialize, Serialize};
 /// AgentTypes : Represents a paginated list of AgentType entities.
 #[derive(Clone, Default, Debug, PartialEq, Serialize, Deserialize)]
 pub struct AgentTypes {
-    /// The list of AgentTypes owned by this collection.
-    #[serde(rename = "agentType", skip_serializing_if = "Option::is_none")]
-    pub agent_type: Option<Vec<models::AgentType>>,
     /// The relative link (without the server URL) used to retrieve this object.
     #[serde(rename = "href", skip_serializing_if = "Option::is_none")]
     pub href: Option<String>,
@@ -26,6 +23,9 @@ pub struct AgentTypes {
     /// If the list of returned entities exceeds the request `count` value, TeamCity splits it into multiple batches. This property returns the endpoint that allows you to obtain the previous batch.
     #[serde(rename = "prevHref", skip_serializing_if = "Option::is_none")]
     pub prev_href: Option<String>,
+    /// The list of AgentTypes owned by this collection.
+    #[serde(rename = "agentType", skip_serializing_if = "Option::is_none")]
+    pub agent_type: Option<Vec<models::AgentType>>,
     /// The current number of AgentType objects in this list.
     #[serde(rename = "count", skip_serializing_if = "Option::is_none")]
     pub count: Option<i32>,
@@ -35,10 +35,10 @@ impl AgentTypes {
     /// Represents a paginated list of AgentType entities.
     pub fn new() -> AgentTypes {
         AgentTypes {
-            agent_type: None,
             href: None,
             next_href: None,
             prev_href: None,
+            agent_type: None,
             count: None,
         }
     }

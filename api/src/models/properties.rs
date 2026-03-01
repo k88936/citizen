@@ -14,10 +14,10 @@ use serde::{Deserialize, Serialize};
 /// Properties : Represents a list of Property entities.
 #[derive(Clone, Default, Debug, PartialEq, Serialize, Deserialize)]
 pub struct Properties {
-    #[serde(rename = "count", skip_serializing_if = "Option::is_none")]
-    pub count: Option<i32>,
     #[serde(rename = "href", skip_serializing_if = "Option::is_none")]
     pub href: Option<String>,
+    #[serde(rename = "count", skip_serializing_if = "Option::is_none")]
+    pub count: Option<i32>,
     #[serde(rename = "property", skip_serializing_if = "Option::is_none")]
     pub property: Option<Vec<models::Property>>,
 }
@@ -26,8 +26,8 @@ impl Properties {
     /// Represents a list of Property entities.
     pub fn new() -> Properties {
         Properties {
-            count: None,
             href: None,
+            count: None,
             property: None,
         }
     }

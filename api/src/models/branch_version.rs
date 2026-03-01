@@ -17,6 +17,9 @@ pub struct BranchVersion {
     /// The full revision SHA. Points to the latest commit in this branch.
     #[serde(rename = "version", skip_serializing_if = "Option::is_none")]
     pub version: Option<String>,
+    /// Returns **true** for unspecified branches; otherwise, **false**. A branch is labeled as unspecified when TeamCity fails to find a branch for this build. Such branches have a predefined '<unspecified>' name.
+    #[serde(rename = "unspecified", skip_serializing_if = "Option::is_none")]
+    pub unspecified: Option<bool>,
     /// Returns **true** if the branch belongs to the automatically created 'My Branches' group; otherwise, **false**. Branch grouping allows TeamCity to automatically categorize branches based on current TeamCity user commits.
     #[serde(rename = "groupFlag", skip_serializing_if = "Option::is_none")]
     pub group_flag: Option<bool>,
@@ -25,9 +28,6 @@ pub struct BranchVersion {
     /// Returns the date and time of the last branch activity (the last TeamCity build or the latest VCS commit).
     #[serde(rename = "lastActivity", skip_serializing_if = "Option::is_none")]
     pub last_activity: Option<String>,
-    /// Returns **true** for unspecified branches; otherwise, **false**. A branch is labeled as unspecified when TeamCity fails to find a branch for this build. Such branches have a predefined '<unspecified>' name.
-    #[serde(rename = "unspecified", skip_serializing_if = "Option::is_none")]
-    pub unspecified: Option<bool>,
     /// A public branch name displayed in TeamCity UI. To get a full VCS name instead (for example, 'refs/heads/main'), read the *vcsBranchName* property of a nested Revision entity.
     #[serde(rename = "name", skip_serializing_if = "Option::is_none")]
     pub name: Option<String>,
@@ -47,10 +47,10 @@ impl BranchVersion {
     pub fn new() -> BranchVersion {
         BranchVersion {
             version: None,
+            unspecified: None,
             group_flag: None,
             builds: None,
             last_activity: None,
-            unspecified: None,
             name: None,
             default: None,
             active: None,

@@ -20,6 +20,9 @@ pub struct ChangeStatus {
     /// The number of build configurations (build types) that have not yet processed this change and have it in their 'pending changes' list.
     #[serde(rename = "pendingBuildTypes", skip_serializing_if = "Option::is_none")]
     pub pending_build_types: Option<i32>,
+    /// Returns how many of `finishedBuilds` finished successfully.
+    #[serde(rename = "successfulBuilds", skip_serializing_if = "Option::is_none")]
+    pub successful_builds: Option<i32>,
     /// The total number of build problems associated with this change, across all build configurations and their builds.
     #[serde(rename = "totalProblems", skip_serializing_if = "Option::is_none")]
     pub total_problems: Option<i32>,
@@ -40,21 +43,18 @@ pub struct ChangeStatus {
     pub new_tests_failed_builds: Option<Box<models::Builds>>,
     #[serde(rename = "compilationErrorBuilds", skip_serializing_if = "Option::is_none")]
     pub compilation_error_builds: Option<Box<models::Builds>>,
+    /// The number of finished builds that processed this change, regardless of their final status.
+    #[serde(rename = "finishedBuilds", skip_serializing_if = "Option::is_none")]
+    pub finished_builds: Option<i32>,
+    /// The number of currently running builds processing this change, regardless of their current build status.
+    #[serde(rename = "runningBuilds", skip_serializing_if = "Option::is_none")]
+    pub running_builds: Option<i32>,
     /// Returns how many of `finishedBuilds` failed.
     #[serde(rename = "failedBuilds", skip_serializing_if = "Option::is_none")]
     pub failed_builds: Option<i32>,
     /// Returns how many of `finishedBuilds` were cancelled before they finished.
     #[serde(rename = "cancelledBuilds", skip_serializing_if = "Option::is_none")]
     pub cancelled_builds: Option<i32>,
-    /// The number of currently running builds processing this change, regardless of their current build status.
-    #[serde(rename = "runningBuilds", skip_serializing_if = "Option::is_none")]
-    pub running_builds: Option<i32>,
-    /// Returns how many of `finishedBuilds` finished successfully.
-    #[serde(rename = "successfulBuilds", skip_serializing_if = "Option::is_none")]
-    pub successful_builds: Option<i32>,
-    /// The number of finished builds that processed this change, regardless of their final status.
-    #[serde(rename = "finishedBuilds", skip_serializing_if = "Option::is_none")]
-    pub finished_builds: Option<i32>,
 }
 
 impl ChangeStatus {
@@ -63,6 +63,7 @@ impl ChangeStatus {
         ChangeStatus {
             running_successfully_builds: None,
             pending_build_types: None,
+            successful_builds: None,
             total_problems: None,
             new_failed_tests: None,
             other_failed_tests: None,
@@ -71,11 +72,10 @@ impl ChangeStatus {
             not_critical_builds: None,
             new_tests_failed_builds: None,
             compilation_error_builds: None,
+            finished_builds: None,
+            running_builds: None,
             failed_builds: None,
             cancelled_builds: None,
-            running_builds: None,
-            successful_builds: None,
-            finished_builds: None,
         }
     }
 }

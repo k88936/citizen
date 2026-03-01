@@ -13,10 +13,10 @@ use serde::{Deserialize, Serialize};
 
 #[derive(Clone, Default, Debug, PartialEq, Serialize, Deserialize)]
 pub struct MatrixParameterDescriptor {
-    #[serde(rename = "value", skip_serializing_if = "Option::is_none")]
-    pub value: Option<Vec<models::LabeledValue>>,
     #[serde(rename = "valueCount", skip_serializing_if = "Option::is_none")]
     pub value_count: Option<i32>,
+    #[serde(rename = "value", skip_serializing_if = "Option::is_none")]
+    pub value: Option<Vec<models::LabeledValue>>,
     #[serde(rename = "name", skip_serializing_if = "Option::is_none")]
     pub name: Option<String>,
 }
@@ -24,8 +24,8 @@ pub struct MatrixParameterDescriptor {
 impl MatrixParameterDescriptor {
     pub fn new() -> MatrixParameterDescriptor {
         MatrixParameterDescriptor {
-            value: None,
             value_count: None,
+            value: None,
             name: None,
         }
     }

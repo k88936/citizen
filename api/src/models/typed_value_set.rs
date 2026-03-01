@@ -14,12 +14,12 @@ use serde::{Deserialize, Serialize};
 /// TypedValueSet : Represents a named set of predefined typed values.
 #[derive(Clone, Default, Debug, PartialEq, Serialize, Deserialize)]
 pub struct TypedValueSet {
+    #[serde(rename = "shortDescription", skip_serializing_if = "Option::is_none")]
+    pub short_description: Option<String>,
     #[serde(rename = "value", skip_serializing_if = "Option::is_none")]
     pub value: Option<Vec<models::LabeledValue>>,
     #[serde(rename = "keyword", skip_serializing_if = "Option::is_none")]
     pub keyword: Option<Vec<String>>,
-    #[serde(rename = "shortDescription", skip_serializing_if = "Option::is_none")]
-    pub short_description: Option<String>,
     #[serde(rename = "name", skip_serializing_if = "Option::is_none")]
     pub name: Option<String>,
     #[serde(rename = "displayName", skip_serializing_if = "Option::is_none")]
@@ -32,9 +32,9 @@ impl TypedValueSet {
     /// Represents a named set of predefined typed values.
     pub fn new() -> TypedValueSet {
         TypedValueSet {
+            short_description: None,
             value: None,
             keyword: None,
-            short_description: None,
             name: None,
             display_name: None,
             description: None,

@@ -1,6 +1,6 @@
 # \BuildTypeApi
 
-All URIs are relative to *http://teamcity.jetbrains.com*
+All URIs are relative to *http://teamcity.k88936.top*
 
 Method | HTTP request | Description
 ------------- | ------------- | -------------

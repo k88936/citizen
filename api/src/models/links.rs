@@ -14,18 +14,18 @@ use serde::{Deserialize, Serialize};
 /// Links : Represents a list of Link entities.
 #[derive(Clone, Default, Debug, PartialEq, Serialize, Deserialize)]
 pub struct Links {
-    #[serde(rename = "count", skip_serializing_if = "Option::is_none")]
-    pub count: Option<i32>,
     #[serde(rename = "link", skip_serializing_if = "Option::is_none")]
     pub link: Option<Vec<models::Link>>,
+    #[serde(rename = "count", skip_serializing_if = "Option::is_none")]
+    pub count: Option<i32>,
 }
 
 impl Links {
     /// Represents a list of Link entities.
     pub fn new() -> Links {
         Links {
-            count: None,
             link: None,
+            count: None,
         }
     }
 }

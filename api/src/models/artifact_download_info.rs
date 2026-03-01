@@ -14,20 +14,20 @@ use serde::{Deserialize, Serialize};
 /// ArtifactDownloadInfo : Stores information about each of the files provided by a build chain build to a downstream dependent build. Can be accessed via the `artifactInfo` field of the `DownloadInfo` object.
 #[derive(Clone, Default, Debug, PartialEq, Serialize, Deserialize)]
 pub struct ArtifactDownloadInfo {
-    /// The path to the artifact file on a build agent machine that processed the upstream build which published this file.
-    #[serde(rename = "path", skip_serializing_if = "Option::is_none")]
-    pub path: Option<String>,
     /// The time when a corresponding file was downloaded.
     #[serde(rename = "downloadTimestamp", skip_serializing_if = "Option::is_none")]
     pub download_timestamp: Option<String>,
+    /// The path to the artifact file on a build agent machine that processed the upstream build which published this file.
+    #[serde(rename = "path", skip_serializing_if = "Option::is_none")]
+    pub path: Option<String>,
 }
 
 impl ArtifactDownloadInfo {
     /// Stores information about each of the files provided by a build chain build to a downstream dependent build. Can be accessed via the `artifactInfo` field of the `DownloadInfo` object.
     pub fn new() -> ArtifactDownloadInfo {
         ArtifactDownloadInfo {
-            path: None,
             download_timestamp: None,
+            path: None,
         }
     }
 }

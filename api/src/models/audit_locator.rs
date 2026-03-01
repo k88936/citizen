@@ -62,465 +62,465 @@ impl AuditLocator {
 /// Type of the action.
 #[derive(Clone, Copy, Debug, Eq, PartialEq, Ord, PartialOrd, Hash, Serialize, Deserialize)]
 pub enum Action {
-    #[serde(rename = "build_pin")]
-    BuildPin,
-    #[serde(rename = "build_type_move")]
-    BuildTypeMove,
-    #[serde(rename = "build_type_template_edit_settings")]
-    BuildTypeTemplateEditSettings,
-    #[serde(rename = "artifacts_storage_settings_deactivated")]
-    ArtifactsStorageSettingsDeactivated,
-    #[serde(rename = "build_type_mark_as_fixed_no_assignee")]
-    BuildTypeMarkAsFixedNoAssignee,
-    #[serde(rename = "plugin_deleted")]
-    PluginDeleted,
-    #[serde(rename = "role_include_another_role")]
-    RoleIncludeAnotherRole,
-    #[serde(rename = "build_type_investigation_remove_no_assignee")]
-    BuildTypeInvestigationRemoveNoAssignee,
-    #[serde(rename = "build_problem_mute_in_project")]
-    BuildProblemMuteInProject,
-    #[serde(rename = "project_dissociate_from_pool")]
-    ProjectDissociateFromPool,
-    #[serde(rename = "build_add_to_queue")]
-    BuildAddToQueue,
-    #[serde(rename = "test_investigation_assign_no_assignee")]
-    TestInvestigationAssignNoAssignee,
-    #[serde(rename = "project_dearchive")]
-    ProjectDearchive,
-    #[serde(rename = "agent_type_move_to_pool")]
-    AgentTypeMoveToPool,
-    #[serde(rename = "project_external_id_change")]
-    ProjectExternalIdChange,
-    #[serde(rename = "test_investigation_assign_sticky")]
-    TestInvestigationAssignSticky,
-    #[serde(rename = "user_group_create")]
-    UserGroupCreate,
-    #[serde(rename = "build_problem_investigation_remove_no_assignee")]
-    BuildProblemInvestigationRemoveNoAssignee,
-    #[serde(rename = "backup_settings_change")]
-    BackupSettingsChange,
-    #[serde(rename = "disable_2fa_for_user")]
-    Disable2faForUser,
-    #[serde(rename = "build_type_template_copy")]
-    BuildTypeTemplateCopy,
-    #[serde(rename = "project_rename")]
-    ProjectRename,
-    #[serde(rename = "user_add_role")]
-    UserAddRole,
+    #[serde(rename = "build_comment_remove")]
+    BuildCommentRemove,
     #[serde(rename = "project_associate_with_pool")]
     ProjectAssociateWithPool,
-    #[serde(rename = "server_remove_ssl_certificate")]
-    ServerRemoveSslCertificate,
-    #[serde(rename = "build_problem_investigation_change")]
-    BuildProblemInvestigationChange,
-    #[serde(rename = "test_unmute")]
-    TestUnmute,
-    #[serde(rename = "build_type_delete")]
-    BuildTypeDelete,
-    #[serde(rename = "backup_stop")]
-    BackupStop,
-    #[serde(rename = "connected_servers_update")]
-    ConnectedServersUpdate,
-    #[serde(rename = "build_type_attach_to_template")]
-    BuildTypeAttachToTemplate,
-    #[serde(rename = "build_problem_mute_in_build")]
-    BuildProblemMuteInBuild,
-    #[serde(rename = "role_delete_permission")]
-    RoleDeletePermission,
-    #[serde(rename = "delete_all_tokens")]
-    DeleteAllTokens,
-    #[serde(rename = "_local_vcs_root_remove")]
-    LocalVcsRootRemove,
-    #[serde(rename = "plugin_uploaded")]
-    PluginUploaded,
-    #[serde(rename = "private_recipe_updated_from_template")]
-    PrivateRecipeUpdatedFromTemplate,
-    #[serde(rename = "_project_copy")]
-    ProjectCopy,
-    #[serde(rename = "test_mute_in_project")]
-    TestMuteInProject,
-    #[serde(rename = "_build_comment_remove")]
-    BuildCommentRemove,
-    #[serde(rename = "tool_added")]
-    ToolAdded,
-    #[serde(rename = "dsl_library_uploaded")]
-    DslLibraryUploaded,
-    #[serde(rename = "artifacts_storage_settings_updated")]
-    ArtifactsStorageSettingsUpdated,
-    #[serde(rename = "build_type_pause")]
-    BuildTypePause,
-    #[serde(rename = "build_type_investigation_assign")]
-    BuildTypeInvestigationAssign,
-    #[serde(rename = "build_queue_paused")]
-    BuildQueuePaused,
-    #[serde(rename = "build_type_edit_settings")]
-    BuildTypeEditSettings,
-    #[serde(rename = "delete_tokens_by_system")]
-    DeleteTokensBySystem,
-    #[serde(rename = "build_problem_investigation_assign_sticky")]
-    BuildProblemInvestigationAssignSticky,
-    #[serde(rename = "build_problem_unmute_in_build")]
-    BuildProblemUnmuteInBuild,
-    #[serde(rename = "private_recipe_removed")]
-    PrivateRecipeRemoved,
-    #[serde(rename = "group_add_to_group")]
-    GroupAddToGroup,
-    #[serde(rename = "project_copy")]
-    ProjectCopy2,
-    #[serde(rename = "vcs_root_create")]
-    VcsRootCreate,
-    #[serde(rename = "artifacts_storage_settings_deleted")]
-    ArtifactsStorageSettingsDeleted,
-    #[serde(rename = "_test_mute_in_project")]
-    TestMuteInProject2,
-    #[serde(rename = "_agent_delete")]
-    AgentDelete,
-    #[serde(rename = "build_problem_mark_as_fixed_no_assignee")]
-    BuildProblemMarkAsFixedNoAssignee,
-    #[serde(rename = "trusted_project_removed")]
-    TrustedProjectRemoved,
-    #[serde(rename = "agent_authorize")]
-    AgentAuthorize,
-    #[serde(rename = "_build_problem_mute_in_build")]
-    BuildProblemMuteInBuild2,
-    #[serde(rename = "test_investigation_remove_no_assignee")]
-    TestInvestigationRemoveNoAssignee,
-    #[serde(rename = "build_cancel")]
-    BuildCancel,
-    #[serde(rename = "project_archive")]
-    ProjectArchive,
-    #[serde(rename = "ssl_certificate_renamed")]
-    SslCertificateRenamed,
-    #[serde(rename = "dependency_check_mode_changed")]
-    DependencyCheckModeChanged,
-    #[serde(rename = "unknown_action")]
-    UnknownAction,
-    #[serde(rename = "build_promotion_tag_change")]
-    BuildPromotionTagChange,
-    #[serde(rename = "project_remove")]
-    ProjectRemove,
-    #[serde(rename = "added_agent_jdk")]
-    AddedAgentJdk,
-    #[serde(rename = "dsl_library_removed")]
-    DslLibraryRemoved,
-    #[serde(rename = "build_unpin")]
-    BuildUnpin,
-    #[serde(rename = "user_group_delete")]
-    UserGroupDelete,
-    #[serde(rename = "artifacts_storage_settings_activated")]
-    ArtifactsStorageSettingsActivated,
-    #[serde(rename = "agent_pool_rename")]
-    AgentPoolRename,
-    #[serde(rename = "native_git_enabled")]
-    NativeGitEnabled,
-    #[serde(rename = "role_create")]
-    RoleCreate,
-    #[serde(rename = "artifacts_storage_settings_created")]
-    ArtifactsStorageSettingsCreated,
-    #[serde(rename = "server_file_change")]
-    ServerFileChange,
-    #[serde(rename = "_build_type_delete")]
-    BuildTypeDelete2,
-    #[serde(rename = "vcs_root_update")]
-    VcsRootUpdate,
-    #[serde(rename = "build_type_create_from_template")]
-    BuildTypeCreateFromTemplate,
-    #[serde(rename = "user_remove_role")]
-    UserRemoveRole,
-    #[serde(rename = "agent_pool_create")]
-    AgentPoolCreate,
-    #[serde(rename = "server_encryption_key_changed")]
-    ServerEncryptionKeyChanged,
-    #[serde(rename = "user_remove_from_group")]
-    UserRemoveFromGroup,
-    #[serde(rename = "build_type_investigation_assign_no_assignee")]
-    BuildTypeInvestigationAssignNoAssignee,
-    #[serde(rename = "test_investigation_assign")]
-    TestInvestigationAssign,
-    #[serde(rename = "test_investigation_change_with_reassign")]
-    TestInvestigationChangeWithReassign,
-    #[serde(rename = "server_install_ssl_certificate")]
-    ServerInstallSslCertificate,
-    #[serde(rename = "build_type_detach_from_template")]
-    BuildTypeDetachFromTemplate,
-    #[serde(rename = "user_update")]
-    UserUpdate,
-    #[serde(rename = "trusted_project_added")]
-    TrustedProjectAdded,
-    #[serde(rename = "ai_assistant_settings_changed")]
-    AiAssistantSettingsChanged,
-    #[serde(rename = "build_type_template_external_id_change")]
-    BuildTypeTemplateExternalIdChange,
-    #[serde(rename = "removed_agent_jdk")]
-    RemovedAgentJdk,
-    #[serde(rename = "build_type_internal_id_change")]
-    BuildTypeInternalIdChange,
-    #[serde(rename = "build_type_template_extract")]
-    BuildTypeTemplateExtract,
-    #[serde(rename = "plugins_repository_settings_updated")]
-    PluginsRepositorySettingsUpdated,
-    #[serde(rename = "agent_delete")]
-    AgentDelete2,
-    #[serde(rename = "build_marked_as_successful")]
-    BuildMarkedAsSuccessful,
-    #[serde(rename = "build_type_activate")]
-    BuildTypeActivate,
-    #[serde(rename = "vcs_root_external_id_change")]
-    VcsRootExternalIdChange,
-    #[serde(rename = "native_git_disabled")]
-    NativeGitDisabled,
-    #[serde(rename = "agent_unauthorize")]
-    AgentUnauthorize,
-    #[serde(rename = "test_investigation_remove")]
-    TestInvestigationRemove,
-    #[serde(rename = "health_status_item_hide")]
-    HealthStatusItemHide,
-    #[serde(rename = "plugin_enable")]
-    PluginEnable,
-    #[serde(rename = "logout_all_users")]
-    LogoutAllUsers,
-    #[serde(rename = "build_queue_resumed")]
-    BuildQueueResumed,
-    #[serde(rename = "build_problem_unmute")]
-    BuildProblemUnmute,
-    #[serde(rename = "build_problem_investigation_remove")]
-    BuildProblemInvestigationRemove,
-    #[serde(rename = "commit_settings_to_vcs")]
-    CommitSettingsToVcs,
-    #[serde(rename = "tool_removed")]
-    ToolRemoved,
-    #[serde(rename = "load_settings_from_vcs")]
-    LoadSettingsFromVcs,
-    #[serde(rename = "create_token_for_user")]
-    CreateTokenForUser,
-    #[serde(rename = "role_delete")]
-    RoleDelete,
-    #[serde(rename = "agent_update_java_requested")]
-    AgentUpdateJavaRequested,
-    #[serde(rename = "build_problem_investigation_assign")]
-    BuildProblemInvestigationAssign,
-    #[serde(rename = "ssl_certificate_upload")]
-    SslCertificateUpload,
-    #[serde(rename = "test_mute_in_build_type")]
-    TestMuteInBuildType,
-    #[serde(rename = "node_responsibility_disabled")]
-    NodeResponsibilityDisabled,
-    #[serde(rename = "user_remove_all_roles")]
-    UserRemoveAllRoles,
-    #[serde(rename = "server_re_encryption_cancelled")]
-    ServerReEncryptionCancelled,
-    #[serde(rename = "build_type_template_move")]
-    BuildTypeTemplateMove,
-    #[serde(rename = "node_responsibility_enabled")]
-    NodeResponsibilityEnabled,
-    #[serde(rename = "test_investigation_change")]
-    TestInvestigationChange,
-    #[serde(rename = "create_2fa_secret_for_user")]
-    Create2faSecretForUser,
-    #[serde(rename = "group_remove_from_group")]
-    GroupRemoveFromGroup,
-    #[serde(rename = "group_remove_role_in_scope")]
-    GroupRemoveRoleInScope,
-    #[serde(rename = "build_type_investigation_change_with_reassign")]
-    BuildTypeInvestigationChangeWithReassign,
-    #[serde(rename = "_build_type_move")]
-    BuildTypeMove2,
-    #[serde(rename = "vcs_root_edit_settings")]
-    VcsRootEditSettings,
-    #[serde(rename = "deactivated_jwt_license")]
-    DeactivatedJwtLicense,
-    #[serde(rename = "logout_all_sessions_of_user")]
-    LogoutAllSessionsOfUser,
-    #[serde(rename = "ssl_certificate_deleted")]
-    SslCertificateDeleted,
-    #[serde(rename = "build_type_investigation_assign_sticky_no_assignee")]
-    BuildTypeInvestigationAssignStickyNoAssignee,
-    #[serde(rename = "global_vcs_root_remove")]
-    GlobalVcsRootRemove,
-    #[serde(rename = "local_vcs_root_remove")]
-    LocalVcsRootRemove2,
-    #[serde(rename = "usage_statistics_reporting_enabled")]
-    UsageStatisticsReportingEnabled,
-    #[serde(rename = "_project_remove")]
-    ProjectRemove2,
-    #[serde(rename = "build_type_create")]
-    BuildTypeCreate,
-    #[serde(rename = "vcs_root_edit_commit_description")]
-    VcsRootEditCommitDescription,
-    #[serde(rename = "build_type_mark_as_fixed")]
-    BuildTypeMarkAsFixed,
-    #[serde(rename = "authentication_edit_settings")]
-    AuthenticationEditSettings,
-    #[serde(rename = "_global_vcs_root_remove")]
-    GlobalVcsRootRemove2,
-    #[serde(rename = "build_comment")]
-    BuildComment,
-    #[serde(rename = "agent_type_run_configuration_policy_change")]
-    AgentTypeRunConfigurationPolicyChange,
-    #[serde(rename = "created_agent_interactive_session")]
-    CreatedAgentInteractiveSession,
-    #[serde(rename = "build_type_external_id_change")]
-    BuildTypeExternalIdChange,
-    #[serde(rename = "private_recipe_created")]
-    PrivateRecipeCreated,
-    #[serde(rename = "build_type_investigation_change")]
-    BuildTypeInvestigationChange,
-    #[serde(rename = "__test_mute_in_project")]
-    TestMuteInProject3,
-    #[serde(rename = "build_type_investigation_remove")]
-    BuildTypeInvestigationRemove,
-    #[serde(rename = "tool_default_changed")]
-    ToolDefaultChanged,
-    #[serde(rename = "build_problem_investigation_assign_no_assignee")]
-    BuildProblemInvestigationAssignNoAssignee,
-    #[serde(rename = "agent_enable")]
-    AgentEnable,
-    #[serde(rename = "build_type_copy")]
-    BuildTypeCopy,
-    #[serde(rename = "build_type_investigation_assign_sticky")]
-    BuildTypeInvestigationAssignSticky,
-    #[serde(rename = "agent_type_can_run_configurations_change")]
-    AgentTypeCanRunConfigurationsChange,
-    #[serde(rename = "user_delete")]
-    UserDelete,
-    #[serde(rename = "agent_pool_props_changed")]
-    AgentPoolPropsChanged,
-    #[serde(rename = "_test_mute_in_build_type")]
-    TestMuteInBuildType2,
-    #[serde(rename = "stored_oauth_token_deleted_by_user")]
-    StoredOauthTokenDeletedByUser,
-    #[serde(rename = "build_remove")]
-    BuildRemove,
-    #[serde(rename = "changed_https_port")]
-    ChangedHttpsPort,
-    #[serde(rename = "project_edit_settings")]
-    ProjectEditSettings,
-    #[serde(rename = "private_recipe_created_from_template")]
-    PrivateRecipeCreatedFromTemplate,
-    #[serde(rename = "server_update")]
-    ServerUpdate,
-    #[serde(rename = "delete_all_tokens_for_user")]
-    DeleteAllTokensForUser,
-    #[serde(rename = "project_create")]
-    ProjectCreate,
-    #[serde(rename = "usage_statistics_reporting_disabled")]
-    UsageStatisticsReportingDisabled,
-    #[serde(rename = "agent_pool_delete")]
-    AgentPoolDelete,
-    #[serde(rename = "test_mark_as_fixed")]
-    TestMarkAsFixed,
-    #[serde(rename = "group_remove_role")]
-    GroupRemoveRole,
-    #[serde(rename = "build_type_sources_clean")]
-    BuildTypeSourcesClean,
-    #[serde(rename = "_user_delete")]
-    UserDelete2,
-    #[serde(rename = "activated_jwt_license")]
-    ActivatedJwtLicense,
-    #[serde(rename = "agent_disable")]
-    AgentDisable,
-    #[serde(rename = "_build_problem_unmute_in_build")]
-    BuildProblemUnmuteInBuild2,
-    #[serde(rename = "private_recipe_created_from_build_type")]
-    PrivateRecipeCreatedFromBuildType,
-    #[serde(rename = "agent_reboot_requested")]
-    AgentRebootRequested,
-    #[serde(rename = "user_add_to_group")]
-    UserAddToGroup,
-    #[serde(rename = "health_status_item_show")]
-    HealthStatusItemShow,
-    #[serde(rename = "role_exclude_another_role")]
-    RoleExcludeAnotherRole,
-    #[serde(rename = "build_type_template_delete")]
-    BuildTypeTemplateDelete,
-    #[serde(rename = "build_remove_from_queue")]
-    BuildRemoveFromQueue,
-    #[serde(rename = "backup_start")]
-    BackupStart,
-    #[serde(rename = "create_2fa_recovery_for_user")]
-    Create2faRecoveryForUser,
-    #[serde(rename = "build_problem_investigation_assign_sticky_no_assignee")]
-    BuildProblemInvestigationAssignStickyNoAssignee,
-    #[serde(rename = "private_recipe_updated")]
-    PrivateRecipeUpdated,
-    #[serde(rename = "build_comment_remove")]
-    BuildCommentRemove2,
-    #[serde(rename = "cleanup_user_interrupt")]
-    CleanupUserInterrupt,
-    #[serde(rename = "plugin_disable")]
-    PluginDisable,
-    #[serde(rename = "build_marked_as_failed")]
-    BuildMarkedAsFailed,
-    #[serde(rename = "_user_group_delete")]
-    UserGroupDelete2,
-    #[serde(rename = "build_type_template_create")]
-    BuildTypeTemplateCreate,
-    #[serde(rename = "refresh_2fa_grace_period_for_user")]
-    Refresh2faGracePeriodForUser,
-    #[serde(rename = "_build_comment")]
-    BuildComment2,
-    #[serde(rename = "server_re_encryption_started")]
-    ServerReEncryptionStarted,
-    #[serde(rename = "test_mark_as_fixed_no_assignee")]
-    TestMarkAsFixedNoAssignee,
-    #[serde(rename = "user_create")]
-    UserCreate,
-    #[serde(rename = "agent_sources_clean")]
-    AgentSourcesClean,
-    #[serde(rename = "usage_statistics_collecting_started")]
-    UsageStatisticsCollectingStarted,
-    #[serde(rename = "delete_token_for_user")]
-    DeleteTokenForUser,
-    #[serde(rename = "build_tag_change")]
-    BuildTagChange,
-    #[serde(rename = "cleanup_manual_start")]
-    CleanupManualStart,
-    #[serde(rename = "project_move")]
-    ProjectMove,
-    #[serde(rename = "create_restricted_token_for_user")]
-    CreateRestrictedTokenForUser,
-    #[serde(rename = "test_mute_in_build")]
-    TestMuteInBuild,
-    #[serde(rename = "stored_oauth_token_created_by_user")]
-    StoredOauthTokenCreatedByUser,
-    #[serde(rename = "_build_type_copy")]
-    BuildTypeCopy2,
-    #[serde(rename = "private_recipe_updated_from_build_type")]
-    PrivateRecipeUpdatedFromBuildType,
-    #[serde(rename = "user_remove_role_in_scope")]
-    UserRemoveRoleInScope,
-    #[serde(rename = "changed_https_redirect_strategy")]
-    ChangedHttpsRedirectStrategy,
-    #[serde(rename = "build_approved_by_user")]
-    BuildApprovedByUser,
-    #[serde(rename = "test_investigation_assign_sticky_no_assignee")]
-    TestInvestigationAssignStickyNoAssignee,
-    #[serde(rename = "vcs_root_scope_change")]
-    VcsRootScopeChange,
-    #[serde(rename = "build_problem_mark_as_fixed")]
-    BuildProblemMarkAsFixed,
     #[serde(rename = "role_add_permission")]
     RoleAddPermission,
-    #[serde(rename = "build_type_templates_reordered")]
-    BuildTypeTemplatesReordered,
-    #[serde(rename = "build_problem_mute_in_build_type")]
-    BuildProblemMuteInBuildType,
-    #[serde(rename = "build_problem_investigation_change_with_reassign")]
-    BuildProblemInvestigationChangeWithReassign,
-    #[serde(rename = "server_restarted")]
-    ServerRestarted,
+    #[serde(rename = "_build_type_copy")]
+    BuildTypeCopy,
+    #[serde(rename = "cleanup_user_interrupt")]
+    CleanupUserInterrupt,
+    #[serde(rename = "artifacts_storage_settings_created")]
+    ArtifactsStorageSettingsCreated,
+    #[serde(rename = "ssl_certificate_upload")]
+    SslCertificateUpload,
+    #[serde(rename = "build_unpin")]
+    BuildUnpin,
+    #[serde(rename = "create_2fa_secret_for_user")]
+    Create2faSecretForUser,
+    #[serde(rename = "build_problem_investigation_assign_sticky")]
+    BuildProblemInvestigationAssignSticky,
+    #[serde(rename = "build_type_attach_to_template")]
+    BuildTypeAttachToTemplate,
+    #[serde(rename = "backup_stop")]
+    BackupStop,
+    #[serde(rename = "project_archive")]
+    ProjectArchive,
+    #[serde(rename = "project_copy")]
+    ProjectCopy,
+    #[serde(rename = "health_status_item_hide")]
+    HealthStatusItemHide,
+    #[serde(rename = "user_add_to_group")]
+    UserAddToGroup,
+    #[serde(rename = "build_problem_investigation_change")]
+    BuildProblemInvestigationChange,
+    #[serde(rename = "test_investigation_assign_no_assignee")]
+    TestInvestigationAssignNoAssignee,
+    #[serde(rename = "role_delete")]
+    RoleDelete,
+    #[serde(rename = "build_type_sources_clean")]
+    BuildTypeSourcesClean,
+    #[serde(rename = "group_add_to_group")]
+    GroupAddToGroup,
+    #[serde(rename = "build_type_create_from_template")]
+    BuildTypeCreateFromTemplate,
+    #[serde(rename = "build_remove_from_queue")]
+    BuildRemoveFromQueue,
+    #[serde(rename = "project_move")]
+    ProjectMove,
+    #[serde(rename = "agent_delete")]
+    AgentDelete,
+    #[serde(rename = "build_type_investigation_change_with_reassign")]
+    BuildTypeInvestigationChangeWithReassign,
+    #[serde(rename = "added_agent_jdk")]
+    AddedAgentJdk,
     #[serde(rename = "server_security_updates_mode_changed")]
     ServerSecurityUpdatesModeChanged,
+    #[serde(rename = "vcs_root_edit_settings")]
+    VcsRootEditSettings,
+    #[serde(rename = "server_file_change")]
+    ServerFileChange,
+    #[serde(rename = "user_create")]
+    UserCreate,
+    #[serde(rename = "build_type_delete")]
+    BuildTypeDelete,
+    #[serde(rename = "build_marked_as_failed")]
+    BuildMarkedAsFailed,
+    #[serde(rename = "changed_https_port")]
+    ChangedHttpsPort,
+    #[serde(rename = "build_type_investigation_change")]
+    BuildTypeInvestigationChange,
+    #[serde(rename = "dependency_check_mode_changed")]
+    DependencyCheckModeChanged,
+    #[serde(rename = "changed_https_redirect_strategy")]
+    ChangedHttpsRedirectStrategy,
+    #[serde(rename = "private_recipe_created_from_build_type")]
+    PrivateRecipeCreatedFromBuildType,
+    #[serde(rename = "build_problem_mute_in_build_type")]
+    BuildProblemMuteInBuildType,
+    #[serde(rename = "vcs_root_update")]
+    VcsRootUpdate,
+    #[serde(rename = "_build_comment")]
+    BuildComment,
+    #[serde(rename = "build_type_external_id_change")]
+    BuildTypeExternalIdChange,
+    #[serde(rename = "project_external_id_change")]
+    ProjectExternalIdChange,
+    #[serde(rename = "build_cancel")]
+    BuildCancel,
+    #[serde(rename = "test_mute_in_build_type")]
+    TestMuteInBuildType,
+    #[serde(rename = "test_investigation_assign_sticky")]
+    TestInvestigationAssignSticky,
     #[serde(rename = "group_add_role")]
     GroupAddRole,
+    #[serde(rename = "logout_all_sessions_of_user")]
+    LogoutAllSessionsOfUser,
+    #[serde(rename = "group_remove_from_group")]
+    GroupRemoveFromGroup,
+    #[serde(rename = "role_exclude_another_role")]
+    RoleExcludeAnotherRole,
+    #[serde(rename = "delete_all_tokens")]
+    DeleteAllTokens,
+    #[serde(rename = "ssl_certificate_renamed")]
+    SslCertificateRenamed,
+    #[serde(rename = "plugin_disable")]
+    PluginDisable,
+    #[serde(rename = "build_type_detach_from_template")]
+    BuildTypeDetachFromTemplate,
+    #[serde(rename = "plugin_enable")]
+    PluginEnable,
+    #[serde(rename = "global_vcs_root_remove")]
+    GlobalVcsRootRemove,
+    #[serde(rename = "ai_assistant_settings_changed")]
+    AiAssistantSettingsChanged,
+    #[serde(rename = "test_unmute")]
+    TestUnmute,
+    #[serde(rename = "delete_all_tokens_for_user")]
+    DeleteAllTokensForUser,
+    #[serde(rename = "project_edit_settings")]
+    ProjectEditSettings,
+    #[serde(rename = "build_type_move")]
+    BuildTypeMove,
+    #[serde(rename = "build_pin")]
+    BuildPin,
+    #[serde(rename = "agent_pool_rename")]
+    AgentPoolRename,
+    #[serde(rename = "build_type_internal_id_change")]
+    BuildTypeInternalIdChange,
+    #[serde(rename = "load_settings_from_vcs")]
+    LoadSettingsFromVcs,
+    #[serde(rename = "test_investigation_assign")]
+    TestInvestigationAssign,
+    #[serde(rename = "agent_update_java_requested")]
+    AgentUpdateJavaRequested,
+    #[serde(rename = "build_type_investigation_assign_sticky_no_assignee")]
+    BuildTypeInvestigationAssignStickyNoAssignee,
+    #[serde(rename = "project_dearchive")]
+    ProjectDearchive,
+    #[serde(rename = "created_agent_interactive_session")]
+    CreatedAgentInteractiveSession,
+    #[serde(rename = "build_type_investigation_assign_sticky")]
+    BuildTypeInvestigationAssignSticky,
+    #[serde(rename = "vcs_root_create")]
+    VcsRootCreate,
+    #[serde(rename = "user_remove_from_group")]
+    UserRemoveFromGroup,
+    #[serde(rename = "native_git_disabled")]
+    NativeGitDisabled,
+    #[serde(rename = "build_type_pause")]
+    BuildTypePause,
+    #[serde(rename = "build_type_activate")]
+    BuildTypeActivate,
+    #[serde(rename = "backup_start")]
+    BackupStart,
+    #[serde(rename = "_user_delete")]
+    UserDelete,
+    #[serde(rename = "user_add_role")]
+    UserAddRole,
+    #[serde(rename = "build_problem_mute_in_project")]
+    BuildProblemMuteInProject,
+    #[serde(rename = "_build_problem_mute_in_build")]
+    BuildProblemMuteInBuild,
+    #[serde(rename = "test_investigation_remove_no_assignee")]
+    TestInvestigationRemoveNoAssignee,
+    #[serde(rename = "group_remove_role")]
+    GroupRemoveRole,
+    #[serde(rename = "build_type_template_create")]
+    BuildTypeTemplateCreate,
+    #[serde(rename = "stored_oauth_token_created_by_user")]
+    StoredOauthTokenCreatedByUser,
+    #[serde(rename = "test_mute_in_project")]
+    TestMuteInProject,
+    #[serde(rename = "build_type_investigation_remove")]
+    BuildTypeInvestigationRemove,
+    #[serde(rename = "project_rename")]
+    ProjectRename,
+    #[serde(rename = "private_recipe_updated_from_build_type")]
+    PrivateRecipeUpdatedFromBuildType,
+    #[serde(rename = "project_create")]
+    ProjectCreate,
+    #[serde(rename = "build_problem_investigation_remove_no_assignee")]
+    BuildProblemInvestigationRemoveNoAssignee,
+    #[serde(rename = "build_add_to_queue")]
+    BuildAddToQueue,
+    #[serde(rename = "commit_settings_to_vcs")]
+    CommitSettingsToVcs,
+    #[serde(rename = "private_recipe_removed")]
+    PrivateRecipeRemoved,
+    #[serde(rename = "build_marked_as_successful")]
+    BuildMarkedAsSuccessful,
+    #[serde(rename = "build_tag_change")]
+    BuildTagChange,
+    #[serde(rename = "role_include_another_role")]
+    RoleIncludeAnotherRole,
+    #[serde(rename = "node_responsibility_disabled")]
+    NodeResponsibilityDisabled,
+    #[serde(rename = "unknown_action")]
+    UnknownAction,
+    #[serde(rename = "test_investigation_assign_sticky_no_assignee")]
+    TestInvestigationAssignStickyNoAssignee,
+    #[serde(rename = "private_recipe_updated")]
+    PrivateRecipeUpdated,
+    #[serde(rename = "private_recipe_created_from_template")]
+    PrivateRecipeCreatedFromTemplate,
+    #[serde(rename = "_test_mute_in_project")]
+    TestMuteInProject2,
+    #[serde(rename = "__test_mute_in_project")]
+    TestMuteInProject3,
+    #[serde(rename = "build_type_investigation_assign")]
+    BuildTypeInvestigationAssign,
+    #[serde(rename = "create_2fa_recovery_for_user")]
+    Create2faRecoveryForUser,
+    #[serde(rename = "_test_mute_in_build_type")]
+    TestMuteInBuildType2,
+    #[serde(rename = "test_mute_in_build")]
+    TestMuteInBuild,
+    #[serde(rename = "build_type_mark_as_fixed_no_assignee")]
+    BuildTypeMarkAsFixedNoAssignee,
+    #[serde(rename = "agent_authorize")]
+    AgentAuthorize,
+    #[serde(rename = "agent_type_run_configuration_policy_change")]
+    AgentTypeRunConfigurationPolicyChange,
+    #[serde(rename = "stored_oauth_token_deleted_by_user")]
+    StoredOauthTokenDeletedByUser,
+    #[serde(rename = "build_promotion_tag_change")]
+    BuildPromotionTagChange,
+    #[serde(rename = "build_problem_unmute")]
+    BuildProblemUnmute,
+    #[serde(rename = "test_mark_as_fixed_no_assignee")]
+    TestMarkAsFixedNoAssignee,
+    #[serde(rename = "_project_remove")]
+    ProjectRemove,
+    #[serde(rename = "server_install_ssl_certificate")]
+    ServerInstallSslCertificate,
+    #[serde(rename = "server_update")]
+    ServerUpdate,
+    #[serde(rename = "refresh_2fa_grace_period_for_user")]
+    Refresh2faGracePeriodForUser,
+    #[serde(rename = "agent_unauthorize")]
+    AgentUnauthorize,
+    #[serde(rename = "build_problem_mark_as_fixed")]
+    BuildProblemMarkAsFixed,
+    #[serde(rename = "local_vcs_root_remove")]
+    LocalVcsRootRemove,
+    #[serde(rename = "usage_statistics_reporting_enabled")]
+    UsageStatisticsReportingEnabled,
+    #[serde(rename = "agent_pool_create")]
+    AgentPoolCreate,
+    #[serde(rename = "build_approved_by_user")]
+    BuildApprovedByUser,
     #[serde(rename = "group_remove_all_roles")]
     GroupRemoveAllRoles,
+    #[serde(rename = "backup_settings_change")]
+    BackupSettingsChange,
+    #[serde(rename = "dsl_library_removed")]
+    DslLibraryRemoved,
+    #[serde(rename = "_build_comment_remove")]
+    BuildCommentRemove2,
+    #[serde(rename = "agent_reboot_requested")]
+    AgentRebootRequested,
+    #[serde(rename = "tool_added")]
+    ToolAdded,
+    #[serde(rename = "build_queue_paused")]
+    BuildQueuePaused,
+    #[serde(rename = "user_update")]
+    UserUpdate,
+    #[serde(rename = "deactivated_jwt_license")]
+    DeactivatedJwtLicense,
+    #[serde(rename = "plugin_deleted")]
+    PluginDeleted,
+    #[serde(rename = "test_mark_as_fixed")]
+    TestMarkAsFixed,
+    #[serde(rename = "build_remove")]
+    BuildRemove,
+    #[serde(rename = "_build_type_move")]
+    BuildTypeMove2,
+    #[serde(rename = "trusted_project_removed")]
+    TrustedProjectRemoved,
+    #[serde(rename = "_agent_delete")]
+    AgentDelete2,
+    #[serde(rename = "artifacts_storage_settings_activated")]
+    ArtifactsStorageSettingsActivated,
+    #[serde(rename = "build_type_create")]
+    BuildTypeCreate,
+    #[serde(rename = "project_remove")]
+    ProjectRemove2,
+    #[serde(rename = "tool_removed")]
+    ToolRemoved,
+    #[serde(rename = "_project_copy")]
+    ProjectCopy2,
+    #[serde(rename = "build_problem_unmute_in_build")]
+    BuildProblemUnmuteInBuild,
+    #[serde(rename = "usage_statistics_reporting_disabled")]
+    UsageStatisticsReportingDisabled,
+    #[serde(rename = "delete_token_for_user")]
+    DeleteTokenForUser,
+    #[serde(rename = "dsl_library_uploaded")]
+    DslLibraryUploaded,
+    #[serde(rename = "native_git_enabled")]
+    NativeGitEnabled,
+    #[serde(rename = "build_type_template_copy")]
+    BuildTypeTemplateCopy,
+    #[serde(rename = "user_remove_all_roles")]
+    UserRemoveAllRoles,
+    #[serde(rename = "server_re_encryption_started")]
+    ServerReEncryptionStarted,
+    #[serde(rename = "_local_vcs_root_remove")]
+    LocalVcsRootRemove2,
+    #[serde(rename = "user_delete")]
+    UserDelete2,
+    #[serde(rename = "usage_statistics_collecting_started")]
+    UsageStatisticsCollectingStarted,
+    #[serde(rename = "vcs_root_edit_commit_description")]
+    VcsRootEditCommitDescription,
+    #[serde(rename = "_user_group_delete")]
+    UserGroupDelete,
+    #[serde(rename = "agent_pool_delete")]
+    AgentPoolDelete,
+    #[serde(rename = "build_problem_investigation_assign_no_assignee")]
+    BuildProblemInvestigationAssignNoAssignee,
+    #[serde(rename = "node_responsibility_enabled")]
+    NodeResponsibilityEnabled,
+    #[serde(rename = "trusted_project_added")]
+    TrustedProjectAdded,
+    #[serde(rename = "cleanup_manual_start")]
+    CleanupManualStart,
+    #[serde(rename = "plugin_uploaded")]
+    PluginUploaded,
+    #[serde(rename = "ssl_certificate_deleted")]
+    SslCertificateDeleted,
+    #[serde(rename = "user_group_delete")]
+    UserGroupDelete2,
+    #[serde(rename = "test_investigation_remove")]
+    TestInvestigationRemove,
+    #[serde(rename = "group_remove_role_in_scope")]
+    GroupRemoveRoleInScope,
+    #[serde(rename = "role_create")]
+    RoleCreate,
+    #[serde(rename = "build_type_investigation_assign_no_assignee")]
+    BuildTypeInvestigationAssignNoAssignee,
+    #[serde(rename = "server_encryption_key_changed")]
+    ServerEncryptionKeyChanged,
+    #[serde(rename = "build_type_template_delete")]
+    BuildTypeTemplateDelete,
+    #[serde(rename = "private_recipe_created")]
+    PrivateRecipeCreated,
+    #[serde(rename = "plugins_repository_settings_updated")]
+    PluginsRepositorySettingsUpdated,
+    #[serde(rename = "build_problem_investigation_assign_sticky_no_assignee")]
+    BuildProblemInvestigationAssignStickyNoAssignee,
+    #[serde(rename = "build_comment")]
+    BuildComment2,
+    #[serde(rename = "logout_all_users")]
+    LogoutAllUsers,
+    #[serde(rename = "_build_type_delete")]
+    BuildTypeDelete2,
+    #[serde(rename = "build_problem_mute_in_build")]
+    BuildProblemMuteInBuild2,
+    #[serde(rename = "user_group_create")]
+    UserGroupCreate,
+    #[serde(rename = "build_type_edit_settings")]
+    BuildTypeEditSettings,
+    #[serde(rename = "activated_jwt_license")]
+    ActivatedJwtLicense,
+    #[serde(rename = "authentication_edit_settings")]
+    AuthenticationEditSettings,
+    #[serde(rename = "agent_disable")]
+    AgentDisable,
+    #[serde(rename = "build_problem_mark_as_fixed_no_assignee")]
+    BuildProblemMarkAsFixedNoAssignee,
+    #[serde(rename = "build_type_copy")]
+    BuildTypeCopy2,
+    #[serde(rename = "test_investigation_change")]
+    TestInvestigationChange,
+    #[serde(rename = "disable_2fa_for_user")]
+    Disable2faForUser,
+    #[serde(rename = "_build_problem_unmute_in_build")]
+    BuildProblemUnmuteInBuild2,
+    #[serde(rename = "build_problem_investigation_change_with_reassign")]
+    BuildProblemInvestigationChangeWithReassign,
+    #[serde(rename = "agent_enable")]
+    AgentEnable,
+    #[serde(rename = "agent_sources_clean")]
+    AgentSourcesClean,
+    #[serde(rename = "artifacts_storage_settings_updated")]
+    ArtifactsStorageSettingsUpdated,
+    #[serde(rename = "user_remove_role_in_scope")]
+    UserRemoveRoleInScope,
+    #[serde(rename = "test_investigation_change_with_reassign")]
+    TestInvestigationChangeWithReassign,
+    #[serde(rename = "build_type_template_edit_settings")]
+    BuildTypeTemplateEditSettings,
+    #[serde(rename = "delete_tokens_by_system")]
+    DeleteTokensBySystem,
+    #[serde(rename = "user_remove_role")]
+    UserRemoveRole,
+    #[serde(rename = "build_problem_investigation_assign")]
+    BuildProblemInvestigationAssign,
+    #[serde(rename = "build_queue_resumed")]
+    BuildQueueResumed,
+    #[serde(rename = "removed_agent_jdk")]
+    RemovedAgentJdk,
+    #[serde(rename = "_global_vcs_root_remove")]
+    GlobalVcsRootRemove2,
+    #[serde(rename = "agent_type_move_to_pool")]
+    AgentTypeMoveToPool,
+    #[serde(rename = "artifacts_storage_settings_deactivated")]
+    ArtifactsStorageSettingsDeactivated,
+    #[serde(rename = "server_re_encryption_cancelled")]
+    ServerReEncryptionCancelled,
+    #[serde(rename = "create_token_for_user")]
+    CreateTokenForUser,
+    #[serde(rename = "vcs_root_external_id_change")]
+    VcsRootExternalIdChange,
+    #[serde(rename = "build_type_template_extract")]
+    BuildTypeTemplateExtract,
+    #[serde(rename = "build_problem_investigation_remove")]
+    BuildProblemInvestigationRemove,
+    #[serde(rename = "agent_type_can_run_configurations_change")]
+    AgentTypeCanRunConfigurationsChange,
+    #[serde(rename = "build_type_templates_reordered")]
+    BuildTypeTemplatesReordered,
+    #[serde(rename = "private_recipe_updated_from_template")]
+    PrivateRecipeUpdatedFromTemplate,
+    #[serde(rename = "server_remove_ssl_certificate")]
+    ServerRemoveSslCertificate,
+    #[serde(rename = "health_status_item_show")]
+    HealthStatusItemShow,
+    #[serde(rename = "vcs_root_scope_change")]
+    VcsRootScopeChange,
+    #[serde(rename = "agent_pool_props_changed")]
+    AgentPoolPropsChanged,
+    #[serde(rename = "build_type_investigation_remove_no_assignee")]
+    BuildTypeInvestigationRemoveNoAssignee,
+    #[serde(rename = "tool_default_changed")]
+    ToolDefaultChanged,
+    #[serde(rename = "connected_servers_update")]
+    ConnectedServersUpdate,
+    #[serde(rename = "build_type_template_external_id_change")]
+    BuildTypeTemplateExternalIdChange,
+    #[serde(rename = "project_dissociate_from_pool")]
+    ProjectDissociateFromPool,
+    #[serde(rename = "build_type_mark_as_fixed")]
+    BuildTypeMarkAsFixed,
+    #[serde(rename = "create_restricted_token_for_user")]
+    CreateRestrictedTokenForUser,
+    #[serde(rename = "server_restarted")]
+    ServerRestarted,
+    #[serde(rename = "role_delete_permission")]
+    RoleDeletePermission,
+    #[serde(rename = "build_type_template_move")]
+    BuildTypeTemplateMove,
+    #[serde(rename = "artifacts_storage_settings_deleted")]
+    ArtifactsStorageSettingsDeleted,
 }
 
 impl Default for Action {
     fn default() -> Action {
-        Self::BuildPin
+        Self::BuildCommentRemove
     }
 }
 /// Is an action made by TeamCity itself.

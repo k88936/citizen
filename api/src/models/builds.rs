@@ -14,9 +14,6 @@ use serde::{Deserialize, Serialize};
 /// Builds : Represents a paginated list of Build entities.
 #[derive(Clone, Default, Debug, PartialEq, Serialize, Deserialize)]
 pub struct Builds {
-    /// The list of builds owned by this collection that satisfy the given locator.
-    #[serde(rename = "build", skip_serializing_if = "Option::is_none")]
-    pub build: Option<Vec<models::Build>>,
     /// The relative link (without the server URL) used to retrieve this object.
     #[serde(rename = "href", skip_serializing_if = "Option::is_none")]
     pub href: Option<String>,
@@ -26,6 +23,9 @@ pub struct Builds {
     /// If the list of returned entities exceeds the request `count` value, TeamCity splits it into multiple batches. This property returns the endpoint that allows you to obtain the previous batch.
     #[serde(rename = "prevHref", skip_serializing_if = "Option::is_none")]
     pub prev_href: Option<String>,
+    /// The list of builds owned by this collection that satisfy the given locator.
+    #[serde(rename = "build", skip_serializing_if = "Option::is_none")]
+    pub build: Option<Vec<models::Build>>,
     /// The current number of Build objects in this list.
     #[serde(rename = "count", skip_serializing_if = "Option::is_none")]
     pub count: Option<i32>,
@@ -35,10 +35,10 @@ impl Builds {
     /// Represents a paginated list of Build entities.
     pub fn new() -> Builds {
         Builds {
-            build: None,
             href: None,
             next_href: None,
             prev_href: None,
+            build: None,
             count: None,
         }
     }

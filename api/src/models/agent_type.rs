@@ -20,15 +20,15 @@ pub struct AgentType {
     pub system_parameters: Option<Box<models::Properties>>,
     #[serde(rename = "environmentParameters", skip_serializing_if = "Option::is_none")]
     pub environment_parameters: Option<Box<models::Properties>>,
-    #[serde(rename = "availableParameters", skip_serializing_if = "Option::is_none")]
-    pub available_parameters: Option<Box<models::Properties>>,
-    #[serde(rename = "buildParameters", skip_serializing_if = "Option::is_none")]
-    pub build_parameters: Option<Box<models::Properties>>,
-    #[serde(rename = "environment", skip_serializing_if = "Option::is_none")]
-    pub environment: Option<Box<models::Environment>>,
     /// Returns *true* if this type identifies agents spawned from a cloud image; *false* if this type identifies a local stand-alone agent.
     #[serde(rename = "isCloud", skip_serializing_if = "Option::is_none")]
     pub is_cloud: Option<bool>,
+    #[serde(rename = "buildParameters", skip_serializing_if = "Option::is_none")]
+    pub build_parameters: Option<Box<models::Properties>>,
+    #[serde(rename = "availableParameters", skip_serializing_if = "Option::is_none")]
+    pub available_parameters: Option<Box<models::Properties>>,
+    #[serde(rename = "environment", skip_serializing_if = "Option::is_none")]
+    pub environment: Option<Box<models::Environment>>,
     /// The name of a local agent or a cloud image that belongs to this type.
     #[serde(rename = "name", skip_serializing_if = "Option::is_none")]
     pub name: Option<String>,
@@ -44,10 +44,10 @@ impl AgentType {
             configuration_parameters: None,
             system_parameters: None,
             environment_parameters: None,
-            available_parameters: None,
-            build_parameters: None,
-            environment: None,
             is_cloud: None,
+            build_parameters: None,
+            available_parameters: None,
+            environment: None,
             name: None,
             id: None,
         }

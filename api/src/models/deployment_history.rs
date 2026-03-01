@@ -13,17 +13,17 @@ use serde::{Deserialize, Serialize};
 
 #[derive(Clone, Default, Debug, PartialEq, Serialize, Deserialize)]
 pub struct DeploymentHistory {
-    #[serde(rename = "states", skip_serializing_if = "Option::is_none")]
-    pub states: Option<Vec<models::DeploymentStateEntry>>,
     #[serde(rename = "currentState", skip_serializing_if = "Option::is_none")]
     pub current_state: Option<Box<models::DeploymentStateEntry>>,
+    #[serde(rename = "states", skip_serializing_if = "Option::is_none")]
+    pub states: Option<Vec<models::DeploymentStateEntry>>,
 }
 
 impl DeploymentHistory {
     pub fn new() -> DeploymentHistory {
         DeploymentHistory {
-            states: None,
             current_state: None,
+            states: None,
         }
     }
 }

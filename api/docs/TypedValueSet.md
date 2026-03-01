@@ -4,9 +4,9 @@
 
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
+**short_description** | Option<**String**> |  | [optional]
 **value** | Option<[**Vec<models::LabeledValue>**](LabeledValue.md)> |  | [optional]
 **keyword** | Option<**Vec<String>**> |  | [optional]
-**short_description** | Option<**String**> |  | [optional]
 **name** | Option<**String**> |  | [optional]
 **display_name** | Option<**String**> |  | [optional]
 **description** | Option<**String**> |  | [optional]
