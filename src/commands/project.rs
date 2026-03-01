@@ -7,7 +7,6 @@ use crate::output;
 
 pub struct ProjectListArgs {
     pub parent: Option<String>,
-    pub archived: bool,
 }
 
 pub struct ProjectGetArgs {
@@ -36,8 +35,8 @@ pub async fn handle_project_command(
     output_format: crate::cli::OutputFormat,
 ) -> Result<()> {
     match command {
-        crate::cli::ProjectCommands::List { parent, archived } => {
-            handle_project_list(client, ProjectListArgs { parent, archived }, output_format).await
+        crate::cli::ProjectCommands::List { parent } => {
+            handle_project_list(client, ProjectListArgs { parent }, output_format).await
         }
         crate::cli::ProjectCommands::Get { project_id } => {
             handle_project_get(client, ProjectGetArgs { project_id }, output_format).await
@@ -88,8 +87,7 @@ async fn handle_project_list(
             .context("Failed to fetch subprojects")?
 
     } else {
-        let locator = if args.archived { None } else { Some("archived:false") };
-        project_api::get_all_projects(&client.config, locator, None)
+        project_api::get_all_projects(&client.config, None, None)
             .await
             .context("Failed to fetch projects")?
     };

@@ -233,9 +233,6 @@ pub enum ProjectCommands {
     List {
         #[arg(short, long)]
         parent: Option<String>,
-
-        #[arg(long)]
-        archived: bool,
     },
 
     Get {
