@@ -98,7 +98,7 @@ async fn handle_project_list(
         .context("Failed to fetch projects")?;
 
     match output_format {
-        crate::cli::OutputFormat::Table => {
+        crate::cli::OutputFormat::Human => {
             println!("{}", output::format_projects_tree(&projects));
         }
         crate::cli::OutputFormat::Json => {
@@ -119,7 +119,7 @@ async fn handle_project_get(
         .context("Failed to fetch project")?;
 
     match output_format {
-        crate::cli::OutputFormat::Table => {
+        crate::cli::OutputFormat::Human => {
             println!("{}", output::format_project_details(&project));
         }
         crate::cli::OutputFormat::Json => {
@@ -141,7 +141,7 @@ async fn handle_project_build_types(
             .context("Failed to fetch build types")?;
 
     match output_format {
-        crate::cli::OutputFormat::Table => {
+        crate::cli::OutputFormat::Human => {
             println!("{}", output::format_build_types_table(&build_types));
         }
         crate::cli::OutputFormat::Json => {
@@ -164,7 +164,7 @@ async fn handle_buildtype_list(
         .context("Failed to fetch build types")?;
 
     match output_format {
-        crate::cli::OutputFormat::Table => {
+        crate::cli::OutputFormat::Human => {
             println!("{}", output::format_build_types_table(&build_types));
         }
         crate::cli::OutputFormat::Json => {
@@ -185,7 +185,7 @@ async fn handle_buildtype_get(
         .context("Failed to fetch build type")?;
 
     match output_format {
-        crate::cli::OutputFormat::Table => {
+        crate::cli::OutputFormat::Human => {
             println!("{}", output::format_build_type_details(&build_type));
         }
         crate::cli::OutputFormat::Json => {
@@ -211,7 +211,7 @@ async fn handle_buildtype_parameters(
     .context("Failed to fetch build type parameters")?;
 
     match output_format {
-        crate::cli::OutputFormat::Table => {
+        crate::cli::OutputFormat::Human => {
             println!("{}", output::format_properties_table(&parameters));
         }
         crate::cli::OutputFormat::Json => {

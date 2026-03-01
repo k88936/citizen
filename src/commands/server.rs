@@ -28,7 +28,7 @@ async fn handle_server_info(
         .context("Failed to get server info")?;
 
     match output_format {
-        crate::cli::OutputFormat::Table => {
+        crate::cli::OutputFormat::Human => {
             println!("{}", output::format_server_info(&server));
         }
         crate::cli::OutputFormat::Json => {

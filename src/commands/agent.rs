@@ -131,7 +131,7 @@ async fn handle_agent_list(
         .context("Failed to fetch agents")?;
 
     match output_format {
-        crate::cli::OutputFormat::Table => {
+        crate::cli::OutputFormat::Human => {
             println!("{}", output::format_agents_table(&agents));
         }
         crate::cli::OutputFormat::Json => {
@@ -152,7 +152,7 @@ async fn handle_agent_get(
         .context("Failed to fetch agent")?;
 
     match output_format {
-        crate::cli::OutputFormat::Table => {
+        crate::cli::OutputFormat::Human => {
             println!("{}", output::format_agent_details(&agent));
         }
         crate::cli::OutputFormat::Json => {
@@ -177,7 +177,7 @@ async fn handle_agent_enable(
             .context("Failed to enable agent")?;
 
     match output_format {
-        crate::cli::OutputFormat::Table => {
+        crate::cli::OutputFormat::Human => {
             println!("Agent {} enabled", args.agent_id);
         }
         crate::cli::OutputFormat::Json => {
@@ -208,7 +208,7 @@ async fn handle_agent_disable(
             .context("Failed to disable agent")?;
 
     match output_format {
-        crate::cli::OutputFormat::Table => {
+        crate::cli::OutputFormat::Human => {
             println!("Agent {} disabled", args.agent_id);
         }
         crate::cli::OutputFormat::Json => {
@@ -233,7 +233,7 @@ async fn handle_agent_authorize(
             .context("Failed to authorize agent")?;
 
     match output_format {
-        crate::cli::OutputFormat::Table => {
+        crate::cli::OutputFormat::Human => {
             println!("Agent {} authorized", args.agent_id);
         }
         crate::cli::OutputFormat::Json => {
@@ -258,7 +258,7 @@ async fn handle_agent_unauthorize(
             .context("Failed to unauthorize agent")?;
 
     match output_format {
-        crate::cli::OutputFormat::Table => {
+        crate::cli::OutputFormat::Human => {
             println!("Agent {} unauthorized", args.agent_id);
         }
         crate::cli::OutputFormat::Json => {
@@ -279,7 +279,7 @@ async fn handle_agent_pool_list(
         .context("Failed to fetch agent pools")?;
 
     match output_format {
-        crate::cli::OutputFormat::Table => {
+        crate::cli::OutputFormat::Human => {
             println!("{}", output::format_agent_pools_table(&pools));
         }
         crate::cli::OutputFormat::Json => {
@@ -300,7 +300,7 @@ async fn handle_agent_pool_get(
         .context("Failed to fetch agent pool")?;
 
     match output_format {
-        crate::cli::OutputFormat::Table => {
+        crate::cli::OutputFormat::Human => {
             println!("{}", output::format_agent_pool_details(&pool));
         }
         crate::cli::OutputFormat::Json => {

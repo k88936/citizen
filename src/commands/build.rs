@@ -204,7 +204,7 @@ async fn handle_build_list(
         .context("Failed to fetch builds")?;
 
     match output_format {
-        crate::cli::OutputFormat::Table => {
+        crate::cli::OutputFormat::Human => {
             println!("{}", output::format_builds_table(&builds));
         }
         crate::cli::OutputFormat::Json => {
@@ -225,7 +225,7 @@ async fn handle_build_get(
         .context("Failed to fetch build")?;
 
     match output_format {
-        crate::cli::OutputFormat::Table => {
+        crate::cli::OutputFormat::Human => {
             println!("{}", output::format_build_details(&build));
         }
         crate::cli::OutputFormat::Json => {
@@ -260,7 +260,7 @@ async fn handle_build_trigger(
     let build_id = queued_build.id;
 
     match output_format {
-        crate::cli::OutputFormat::Table => {
+        crate::cli::OutputFormat::Human => {
             println!("Build triggered successfully!");
             println!(
                 "Build ID: {}",
@@ -325,7 +325,7 @@ async fn wait_for_build_completion(
             }
 
             match output_format {
-                crate::cli::OutputFormat::Table => {
+                crate::cli::OutputFormat::Human => {
                     println!("\nBuild {} finished with status: {}", build_id, status);
                     if let Some(web_url) = &build.web_url {
                         println!("Web URL: {}", web_url);
@@ -360,7 +360,7 @@ async fn handle_build_cancel(
         .context("Failed to cancel build")?;
 
     match output_format {
-        crate::cli::OutputFormat::Table => {
+        crate::cli::OutputFormat::Human => {
             println!("Build canceled successfully!");
             println!(
                 "Build ID: {}",
@@ -388,7 +388,7 @@ async fn handle_build_status(
         .context("Failed to get build status")?;
 
     match output_format {
-        crate::cli::OutputFormat::Table => {
+        crate::cli::OutputFormat::Human => {
             println!("Build ID: {}", args.build_id);
             println!("Status: {}", status);
         }
@@ -552,7 +552,7 @@ async fn handle_build_artifacts(
             };
 
             match output_format {
-                crate::cli::OutputFormat::Table => {
+                crate::cli::OutputFormat::Human => {
                     println!("{}", output::format_artifacts_table(&files));
                 }
                 crate::cli::OutputFormat::Json => {
@@ -622,7 +622,7 @@ async fn handle_build_tags(
                 .context("Failed to fetch build tags")?;
 
             match output_format {
-                crate::cli::OutputFormat::Table => {
+                crate::cli::OutputFormat::Human => {
                     println!("{}", output::format_tags_table(&tags));
                 }
                 crate::cli::OutputFormat::Json => {
@@ -643,7 +643,7 @@ async fn handle_build_tags(
                     .context("Failed to add tag")?;
 
             match output_format {
-                crate::cli::OutputFormat::Table => {
+                crate::cli::OutputFormat::Human => {
                     println!("Tag '{}' added to build {}", tag, args.build_id);
                 }
                 crate::cli::OutputFormat::Json => {
@@ -678,7 +678,7 @@ async fn handle_build_tags(
             .context("Failed to remove tag")?;
 
             match output_format {
-                crate::cli::OutputFormat::Table => {
+                crate::cli::OutputFormat::Human => {
                     println!("Tag '{}' removed from build {}", tag, args.build_id);
                 }
                 crate::cli::OutputFormat::Json => {
@@ -711,7 +711,7 @@ async fn handle_build_pin(
             .context("Failed to update pin status")?;
 
     match output_format {
-        crate::cli::OutputFormat::Table => {
+        crate::cli::OutputFormat::Human => {
             if args.unpin {
                 println!("Build {} unpinned", args.build_id);
             } else {

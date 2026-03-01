@@ -14,7 +14,7 @@ pub struct Cli {
     #[arg(short, long, env = "TEAMCITY_TOKEN")]
     pub token: Option<String>,
 
-    #[arg(short, long, value_enum, default_value = "table")]
+    #[arg(short, long, value_enum, default_value = "human")]
     pub output: OutputFormat,
 
     #[command(subcommand)]
@@ -23,7 +23,7 @@ pub struct Cli {
 
 #[derive(clap::ValueEnum, Clone, Debug)]
 pub enum OutputFormat {
-    Table,
+    Human,
     Json,
 }
 

@@ -83,7 +83,7 @@ async fn handle_queue_list(
         .context("Failed to fetch queued builds")?;
 
     match output_format {
-        crate::cli::OutputFormat::Table => {
+        crate::cli::OutputFormat::Human => {
             println!("{}", output::format_queue_table(&builds));
         }
         crate::cli::OutputFormat::Json => {
@@ -104,7 +104,7 @@ async fn handle_queue_get(
         .context("Failed to fetch queued build")?;
 
     match output_format {
-        crate::cli::OutputFormat::Table => {
+        crate::cli::OutputFormat::Human => {
             println!("{}", output::format_queued_build_details(&build));
         }
         crate::cli::OutputFormat::Json => {
@@ -132,7 +132,7 @@ async fn handle_queue_cancel(
             .context("Failed to cancel queued build")?;
 
     match output_format {
-        crate::cli::OutputFormat::Table => {
+        crate::cli::OutputFormat::Human => {
             println!("Queued build canceled successfully!");
             println!(
                 "Build ID: {}",
@@ -176,7 +176,7 @@ async fn handle_queue_reorder(
     };
 
     match output_format {
-        crate::cli::OutputFormat::Table => {
+        crate::cli::OutputFormat::Human => {
             println!("Build reordered in queue successfully!");
             println!(
                 "Build ID: {}",

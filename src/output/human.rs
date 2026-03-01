@@ -1,5 +1,6 @@
 use api::models::{
-    Agent, AgentPool, AgentPools, Agents, Build, BuildType, BuildTypes, Builds, Files, Project, Projects, Properties, Server, Tags,
+    Agent, AgentPool, AgentPools, Agents, Build, BuildType, BuildTypes, Builds, Files, Project,
+    Projects, Properties, Server, Tags,
 };
 use colored::Colorize;
 use tabled::{
