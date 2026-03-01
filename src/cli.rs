@@ -49,6 +49,10 @@ pub enum Commands {
         #[command(subcommand)]
         command: QueueCommands,
     },
+    Agent {
+        #[command(subcommand)]
+        command: AgentCommands,
+    },
 }
 
 #[derive(Subcommand)]
@@ -260,5 +264,61 @@ pub enum BuildTypeCommands {
     Parameters {
         #[arg(required = true)]
         build_type_id: String,
+    },
+}
+#[derive(Subcommand)]
+pub enum AgentCommands {
+    List {
+        #[arg(long)]
+        connected: Option<bool>,
+
+        #[arg(long)]
+        authorized: Option<bool>,
+
+        #[arg(long)]
+        enabled: Option<bool>,
+    },
+
+    Get {
+        #[arg(required = true)]
+        agent_id: String,
+    },
+
+    Enable {
+        #[arg(required = true)]
+        agent_id: String,
+    },
+
+    Disable {
+        #[arg(required = true)]
+        agent_id: String,
+
+        #[arg(short, long)]
+        comment: Option<String>,
+    },
+
+    Authorize {
+        #[arg(required = true)]
+        agent_id: String,
+    },
+
+    Unauthorize {
+        #[arg(required = true)]
+        agent_id: String,
+    },
+
+    Pool {
+        #[command(subcommand)]
+        command: AgentPoolCommands,
+    },
+}
+
+#[derive(Subcommand)]
+pub enum AgentPoolCommands {
+    List,
+
+    Get {
+        #[arg(required = true)]
+        pool_id: String,
     },
 }

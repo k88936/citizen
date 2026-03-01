@@ -1,5 +1,9 @@
 mod table;
 
+pub use table::format_agent_details;
+pub use table::format_agent_pool_details;
+pub use table::format_agent_pools_table;
+pub use table::format_agents_table;
 pub use table::format_artifacts_table;
 pub use table::format_build_details;
 pub use table::format_build_type_details;

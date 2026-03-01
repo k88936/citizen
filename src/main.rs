@@ -37,6 +37,9 @@ async fn main() -> Result<()> {
         Commands::Queue { command } => {
             commands::handle_queue_command(&client, command, args.output).await?;
         }
+        Commands::Agent { command } => {
+            commands::handle_agent_command(&client, command, args.output).await?;
+        }
     }
 
     Ok(())

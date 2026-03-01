@@ -1,5 +1,5 @@
 use api::models::{
-    Build, BuildType, BuildTypes, Builds, Files, Project, Projects, Properties, Server, Tags,
+    Agent, AgentPool, AgentPools, Agents, Build, BuildType, BuildTypes, Builds, Files, Project, Projects, Properties, Server, Tags,
 };
 use colored::Colorize;
 use tabled::{
@@ -669,4 +669,232 @@ pub fn format_properties_table(properties: &Properties) -> String {
         .with(Modify::new(Rows::new(1..)).with(Alignment::left()));
 
     table.to_string()
+}
+#[derive(Tabled)]
+struct AgentRow {
+    #[tabled(rename = "ID")]
+    id: String,
+    #[tabled(rename = "Name")]
+    name: String,
+    #[tabled(rename = "Connected")]
+    connected: String,
+    #[tabled(rename = "Authorized")]
+    authorized: String,
+    #[tabled(rename = "Enabled")]
+    enabled: String,
+    #[tabled(rename = "Version")]
+    version: String,
+}
+
+pub fn format_agents_table(agents: &Agents) -> String {
+    let rows: Vec<AgentRow> = agents
+        .agent
+        .as_ref()
+        .map(|a| {
+            a.iter()
+                .map(|agent| AgentRow {
+                    id: agent.id.map_or("N/A".to_string(), |id| id.to_string()),
+                    name: agent.name.clone().unwrap_or_else(|| "N/A".to_string()),
+                    connected: format_bool_status(agent.connected),
+                    authorized: format_bool_status(agent.authorized),
+                    enabled: format_bool_status(agent.enabled),
+                    version: agent.version.clone().unwrap_or_else(|| "N/A".to_string()),
+                })
+                .collect()
+        })
+        .unwrap_or_default();
+
+    if rows.is_empty() {
+        return "No agents found".to_string();
+    }
+
+    let mut table = Table::new(rows);
+    table
+        .with(Style::psql())
+        .with(Modify::new(Rows::new(1..)).with(Alignment::left()));
+
+    table.to_string()
+}
+
+fn format_bool_status(status: Option<bool>) -> String {
+    match status {
+        Some(true) => "Yes".green().to_string(),
+        Some(false) => "No".red().to_string(),
+        None => "N/A".yellow().to_string(),
+    }
+}
+
+pub fn format_agent_details(agent: &Agent) -> String {
+    let mut details = Vec::new();
+
+    details.push(format!(
+        "{}: {}",
+        "ID".bold(),
+        agent.id.map_or("N/A".to_string(), |id| id.to_string())
+    ));
+    details.push(format!(
+        "{}: {}",
+        "Name".bold(),
+        agent.name.clone().unwrap_or_else(|| "N/A".to_string())
+    ));
+
+    if let Some(type_id) = agent.type_id {
+        details.push(format!("{}: {}", "Type ID".bold(), type_id));
+    }
+
+    details.push(format!(
+        "{}: {}",
+        "Connected".bold(),
+        format_bool_status(agent.connected)
+    ));
+    details.push(format!(
+        "{}: {}",
+        "Authorized".bold(),
+        format_bool_status(agent.authorized)
+    ));
+    details.push(format!(
+        "{}: {}",
+        "Enabled".bold(),
+        format_bool_status(agent.enabled)
+    ));
+    details.push(format!(
+        "{}: {}",
+        "Up to Date".bold(),
+        format_bool_status(agent.uptodate)
+    ));
+
+    if let Some(version) = &agent.version {
+        details.push(format!("{}: {}", "Version".bold(), version));
+    }
+
+    if let Some(current_version) = &agent.current_agent_version {
+        details.push(format!(
+            "{}: {}",
+            "Expected Version".bold(),
+            current_version
+        ));
+    }
+
+    if let Some(ip) = &agent.ip {
+        details.push(format!("{}: {}", "IP Address".bold(), ip));
+    }
+
+    if let Some(host) = &agent.host {
+        details.push(format!("{}: {}", "Host".bold(), host));
+    }
+
+    if let Some(port) = agent.port {
+        details.push(format!("{}: {}", "Port".bold(), port));
+    }
+
+    if let Some(cpu_rank) = agent.cpu_rank {
+        details.push(format!("{}: {}", "CPU Rank".bold(), cpu_rank));
+    }
+
+    if let Some(last_activity) = &agent.last_activity_time {
+        details.push(format!("{}: {}", "Last Activity".bold(), last_activity));
+    }
+
+    if let Some(idle_since) = &agent.idle_since_time {
+        details.push(format!("{}: {}", "Idle Since".bold(), idle_since));
+    }
+
+    if let Some(disconnection_comment) = &agent.disconnection_comment {
+        details.push(format!(
+            "{}: {}",
+            "Disconnection Comment".bold(),
+            disconnection_comment
+        ));
+    }
+
+    if let Some(web_url) = &agent.web_url {
+        details.push(format!("{}: {}", "Web URL".bold(), web_url));
+    }
+
+    if let Some(pool) = &agent.pool {
+        if let Some(name) = &pool.name {
+            details.push(format!("{}: {}", "Pool".bold(), name));
+        }
+    }
+
+    details.join("\n")
+}
+
+#[derive(Tabled)]
+struct AgentPoolRow {
+    #[tabled(rename = "ID")]
+    id: String,
+    #[tabled(rename = "Name")]
+    name: String,
+    #[tabled(rename = "Max Agents")]
+    max_agents: String,
+}
+
+pub fn format_agent_pools_table(pools: &AgentPools) -> String {
+    let rows: Vec<AgentPoolRow> = pools
+        .agent_pool
+        .as_ref()
+        .map(|p| {
+            p.iter()
+                .map(|pool| AgentPoolRow {
+                    id: pool.id.map_or("N/A".to_string(), |id| id.to_string()),
+                    name: pool.name.clone().unwrap_or_else(|| "N/A".to_string()),
+                    max_agents: pool
+                        .max_agents
+                        .map(|m| m.to_string())
+                        .unwrap_or_else(|| "unlimited".to_string()),
+                })
+                .collect()
+        })
+        .unwrap_or_default();
+
+    if rows.is_empty() {
+        return "No agent pools found".to_string();
+    }
+
+    let mut table = Table::new(rows);
+    table
+        .with(Style::psql())
+        .with(Modify::new(Rows::new(1..)).with(Alignment::left()));
+
+    table.to_string()
+}
+
+pub fn format_agent_pool_details(pool: &AgentPool) -> String {
+    let mut details = Vec::new();
+
+    details.push(format!(
+        "{}: {}",
+        "ID".bold(),
+        pool.id.map_or("N/A".to_string(), |id| id.to_string())
+    ));
+    details.push(format!(
+        "{}: {}",
+        "Name".bold(),
+        pool.name.clone().unwrap_or_else(|| "N/A".to_string())
+    ));
+
+    if let Some(max_agents) = pool.max_agents {
+        details.push(format!("{}: {}", "Max Agents".bold(), max_agents));
+    } else {
+        details.push(format!("{}: unlimited", "Max Agents".bold()));
+    }
+
+    if let Some(agents) = &pool.agents {
+        if let Some(count) = agents.count {
+            details.push(format!("{}: {}", "Agent Count".bold(), count));
+        }
+    }
+
+    if let Some(projects) = &pool.projects {
+        if let Some(count) = projects.count {
+            details.push(format!("{}: {}", "Project Count".bold(), count));
+        }
+    }
+
+    if let Some(href) = &pool.href {
+        details.push(format!("{}: {}", "Href".bold(), href));
+    }
+
+    details.join("\n")
 }
