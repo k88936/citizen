@@ -156,11 +156,19 @@ async fn interactive_trigger_build(client: &TeamCityClient) -> Result<()> {
         .with_default("")
         .prompt()?;
 
-    let branch = if branch.is_empty() { None } else { Some(branch) };
+    let branch = if branch.is_empty() {
+        None
+    } else {
+        Some(branch)
+    };
 
     let should_trigger = Select::new(
         "Ready to trigger. Proceed?",
-        vec![TriggerChoice::Yes, TriggerChoice::YesAndWait, TriggerChoice::No],
+        vec![
+            TriggerChoice::Yes,
+            TriggerChoice::YesAndWait,
+            TriggerChoice::No,
+        ],
     )
     .prompt()?;
 
@@ -208,6 +216,11 @@ async fn interactive_view_builds(client: &TeamCityClient) -> Result<()> {
     let build = fuzzy_select_build(&builds)?;
 
     show_build_details(client, build.id).await?;
+
+    println!("\nCommands:");
+    println!("  citizen build log {}          # View build log", build.id);
+    println!("  citizen build log {} --follow # Follow build log", build.id);
+    println!("  citizen build artifacts {} list # List artifacts", build.id);
 
     Ok(())
 }
@@ -277,7 +290,11 @@ async fn interactive_view_queue(client: &TeamCityClient) -> Result<()> {
 
     let action = Select::new(
         "What would you like to do?",
-        vec![QueueAction::ViewDetails, QueueAction::Cancel, QueueAction::Back],
+        vec![
+            QueueAction::ViewDetails,
+            QueueAction::Cancel,
+            QueueAction::Back,
+        ],
     )
     .prompt()?;
 
@@ -335,17 +352,10 @@ fn fuzzy_select_build_type(build_types: &[InteractiveBuildType]) -> Result<Inter
     Ok(ans)
 }
 
-async fn fetch_recent_builds(
-    client: &TeamCityClient,
-    limit: u32,
-) -> Result<Vec<InteractiveBuild>> {
-    let builds = build_api::get_all_builds(
-        &client.config,
-        Some(&format!("count:{}", limit)),
-        None,
-    )
-    .await
-    .context("Failed to fetch builds")?;
+async fn fetch_recent_builds(client: &TeamCityClient, limit: u32) -> Result<Vec<InteractiveBuild>> {
+    let builds = build_api::get_all_builds(&client.config, Some(&format!("count:{}", limit)), None)
+        .await
+        .context("Failed to fetch builds")?;
 
     let interactive_builds: Vec<InteractiveBuild> = builds
         .build
@@ -516,10 +526,7 @@ async fn show_build_details(client: &TeamCityClient, build_id: i64) -> Result<()
         "Status: {}",
         build.status.unwrap_or_else(|| "UNKNOWN".to_string())
     );
-    println!(
-        "State: {:?}",
-        build.state.unwrap_or(State::Finished)
-    );
+    println!("State: {:?}", build.state.unwrap_or(State::Finished));
     if let Some(branch) = &build.branch_name {
         println!("Branch: {}", branch);
     }
@@ -555,10 +562,7 @@ async fn show_project_details(client: &TeamCityClient, project_id: &str) -> Resu
     println!("\n{}", "─".repeat(50));
     println!("Project Details");
     println!("{}", "─".repeat(50));
-    println!(
-        "ID: {}",
-        project.id.unwrap_or_else(|| "N/A".to_string())
-    );
+    println!("ID: {}", project.id.unwrap_or_else(|| "N/A".to_string()));
     println!(
         "Name: {}",
         project.name.unwrap_or_else(|| "N/A".to_string())
@@ -601,10 +605,7 @@ async fn show_build_type_details(client: &TeamCityClient, build_type_id: &str) -
     println!("\n{}", "─".repeat(50));
     println!("Build Type Details");
     println!("{}", "─".repeat(50));
-    println!(
-        "ID: {}",
-        build_type.id.unwrap_or_else(|| "N/A".to_string())
-    );
+    println!("ID: {}", build_type.id.unwrap_or_else(|| "N/A".to_string()));
     println!(
         "Name: {}",
         build_type.name.unwrap_or_else(|| "N/A".to_string())
@@ -633,10 +634,13 @@ async fn cancel_queued_build(client: &TeamCityClient, build_id: i64) -> Result<(
 
     let cancel_request = BuildCancelRequest::default();
 
-    let build =
-        build_queue_api::cancel_queued_build(&client.config, &build_id.to_string(), Some(cancel_request))
-            .await
-            .context("Failed to cancel queued build")?;
+    let build = build_queue_api::cancel_queued_build(
+        &client.config,
+        &build_id.to_string(),
+        Some(cancel_request),
+    )
+    .await
+    .context("Failed to cancel queued build")?;
 
     println!(
         "Build {} cancelled from queue.",
@@ -752,8 +756,10 @@ pub async fn select_project_interactive(
             .await
             .context("Failed to fetch parent project")?;
 
-        let subprojects = project.projects.unwrap_or_else(|| Box::new(Projects::default()));
-        
+        let subprojects = project
+            .projects
+            .unwrap_or_else(|| Box::new(Projects::default()));
+
         subprojects
             .project
             .unwrap_or_default()
