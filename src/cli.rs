@@ -33,6 +33,14 @@ pub enum Commands {
         #[command(subcommand)]
         command: BuildCommands,
     },
+    Project {
+        #[command(subcommand)]
+        command: ProjectCommands,
+    },
+    Buildtype {
+        #[command(subcommand)]
+        command: BuildTypeCommands,
+    },
     Server {
         #[command(subcommand)]
         command: ServerCommands,
@@ -214,4 +222,43 @@ pub enum QueueCommands {
 #[derive(Subcommand)]
 pub enum ServerCommands {
     Info,
+}
+
+#[derive(Subcommand)]
+pub enum ProjectCommands {
+    List {
+        #[arg(short, long)]
+        parent: Option<String>,
+
+        #[arg(long)]
+        archived: bool,
+    },
+
+    Get {
+        #[arg(required = true)]
+        project_id: String,
+    },
+
+    BuildTypes {
+        #[arg(required = true)]
+        project_id: String,
+    },
+}
+
+#[derive(Subcommand)]
+pub enum BuildTypeCommands {
+    List {
+        #[arg(short, long)]
+        project_id: Option<String>,
+    },
+
+    Get {
+        #[arg(required = true)]
+        build_type_id: String,
+    },
+
+    Parameters {
+        #[arg(required = true)]
+        build_type_id: String,
+    },
 }

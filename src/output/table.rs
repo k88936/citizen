@@ -1,4 +1,6 @@
-use api::models::{Build, Builds, Files, Server, Tags};
+use api::models::{
+    Build, BuildType, BuildTypes, Builds, Files, Project, Projects, Properties, Server, Tags,
+};
 use colored::Colorize;
 use tabled::{
     Table, Tabled,
@@ -388,4 +390,232 @@ pub fn format_queued_build_details(build: &Build) -> String {
     }
 
     details.join("\n")
+}
+
+#[derive(Tabled)]
+struct ProjectRow {
+    #[tabled(rename = "ID")]
+    id: String,
+    #[tabled(rename = "Name")]
+    name: String,
+    #[tabled(rename = "Parent")]
+    parent: String,
+    #[tabled(rename = "Archived")]
+    archived: String,
+}
+
+pub fn format_projects_table(projects: &Projects) -> String {
+    let rows: Vec<ProjectRow> = projects
+        .project
+        .as_ref()
+        .map(|p| {
+            p.iter()
+                .map(|project| ProjectRow {
+                    id: project.id.clone().unwrap_or_else(|| "N/A".to_string()),
+                    name: project.name.clone().unwrap_or_else(|| "N/A".to_string()),
+                    parent: project
+                        .parent_project_id
+                        .clone()
+                        .unwrap_or_else(|| "_Root".to_string()),
+                    archived: project
+                        .archived
+                        .map(|a| {
+                            if a {
+                                "Yes".to_string()
+                            } else {
+                                "No".to_string()
+                            }
+                        })
+                        .unwrap_or_else(|| "No".to_string()),
+                })
+                .collect()
+        })
+        .unwrap_or_default();
+
+    if rows.is_empty() {
+        return "No projects found".to_string();
+    }
+
+    let mut table = Table::new(rows);
+    table
+        .with(Style::psql())
+        .with(Modify::new(Rows::new(1..)).with(Alignment::left()));
+
+    table.to_string()
+}
+
+pub fn format_project_details(project: &Project) -> String {
+    let mut details = Vec::new();
+
+    details.push(format!(
+        "{}: {}",
+        "ID".bold(),
+        project.id.clone().unwrap_or_else(|| "N/A".to_string())
+    ));
+    details.push(format!(
+        "{}: {}",
+        "Name".bold(),
+        project.name.clone().unwrap_or_else(|| "N/A".to_string())
+    ));
+
+    if let Some(description) = &project.description {
+        details.push(format!("{}: {}", "Description".bold(), description));
+    }
+
+    if let Some(parent_id) = &project.parent_project_id {
+        details.push(format!("{}: {}", "Parent Project ID".bold(), parent_id));
+    }
+
+    if let Some(parent_name) = &project.parent_project_name {
+        details.push(format!("{}: {}", "Parent Project Name".bold(), parent_name));
+    }
+
+    if let Some(archived) = project.archived {
+        details.push(format!("{}: {}", "Archived".bold(), archived));
+    }
+
+    if let Some(web_url) = &project.web_url {
+        details.push(format!("{}: {}", "Web URL".bold(), web_url));
+    }
+
+    if let Some(build_types) = &project.build_types {
+        if let Some(count) = build_types.count {
+            details.push(format!("{}: {}", "Build Types Count".bold(), count));
+        }
+    }
+
+    if let Some(subprojects) = &project.projects {
+        if let Some(count) = subprojects.count {
+            details.push(format!("{}: {}", "Subprojects Count".bold(), count));
+        }
+    }
+
+    details.join("\n")
+}
+
+#[derive(Tabled)]
+struct BuildTypeRow {
+    #[tabled(rename = "ID")]
+    id: String,
+    #[tabled(rename = "Name")]
+    name: String,
+    #[tabled(rename = "Project")]
+    project: String,
+    #[tabled(rename = "Paused")]
+    paused: String,
+}
+
+pub fn format_build_types_table(build_types: &BuildTypes) -> String {
+    let rows: Vec<BuildTypeRow> = build_types
+        .build_type
+        .as_ref()
+        .map(|bt| {
+            bt.iter()
+                .map(|build_type| BuildTypeRow {
+                    id: build_type.id.clone().unwrap_or_else(|| "N/A".to_string()),
+                    name: build_type.name.clone().unwrap_or_else(|| "N/A".to_string()),
+                    project: build_type
+                        .project_name
+                        .clone()
+                        .unwrap_or_else(|| "N/A".to_string()),
+                    paused: build_type
+                        .paused
+                        .map(|p| {
+                            if p {
+                                "Yes".to_string()
+                            } else {
+                                "No".to_string()
+                            }
+                        })
+                        .unwrap_or_else(|| "No".to_string()),
+                })
+                .collect()
+        })
+        .unwrap_or_default();
+
+    if rows.is_empty() {
+        return "No build types found".to_string();
+    }
+
+    let mut table = Table::new(rows);
+    table
+        .with(Style::psql())
+        .with(Modify::new(Rows::new(1..)).with(Alignment::left()));
+
+    table.to_string()
+}
+
+pub fn format_build_type_details(build_type: &BuildType) -> String {
+    let mut details = Vec::new();
+
+    details.push(format!(
+        "{}: {}",
+        "ID".bold(),
+        build_type.id.clone().unwrap_or_else(|| "N/A".to_string())
+    ));
+    details.push(format!(
+        "{}: {}",
+        "Name".bold(),
+        build_type.name.clone().unwrap_or_else(|| "N/A".to_string())
+    ));
+
+    if let Some(description) = &build_type.description {
+        details.push(format!("{}: {}", "Description".bold(), description));
+    }
+
+    if let Some(project_id) = &build_type.project_id {
+        details.push(format!("{}: {}", "Project ID".bold(), project_id));
+    }
+
+    if let Some(project_name) = &build_type.project_name {
+        details.push(format!("{}: {}", "Project Name".bold(), project_name));
+    }
+
+    if let Some(paused) = build_type.paused {
+        details.push(format!("{}: {}", "Paused".bold(), paused));
+    }
+
+    if let Some(template_flag) = build_type.template_flag {
+        details.push(format!("{}: {}", "Template".bold(), template_flag));
+    }
+
+    if let Some(web_url) = &build_type.web_url {
+        details.push(format!("{}: {}", "Web URL".bold(), web_url));
+    }
+
+    details.join("\n")
+}
+
+#[derive(Tabled)]
+struct PropertyRow {
+    #[tabled(rename = "Name")]
+    name: String,
+    #[tabled(rename = "Value")]
+    value: String,
+}
+
+pub fn format_properties_table(properties: &Properties) -> String {
+    let rows: Vec<PropertyRow> = properties
+        .property
+        .as_ref()
+        .map(|p| {
+            p.iter()
+                .map(|prop| PropertyRow {
+                    name: prop.name.clone().unwrap_or_else(|| "N/A".to_string()),
+                    value: prop.value.clone().unwrap_or_else(|| "N/A".to_string()),
+                })
+                .collect()
+        })
+        .unwrap_or_default();
+
+    if rows.is_empty() {
+        return "No parameters found".to_string();
+    }
+
+    let mut table = Table::new(rows);
+    table
+        .with(Style::psql())
+        .with(Modify::new(Rows::new(1..)).with(Alignment::left()));
+
+    table.to_string()
 }

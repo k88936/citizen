@@ -25,6 +25,12 @@ async fn main() -> Result<()> {
         Commands::Build { command } => {
             commands::handle_build_command(&client, command, args.output).await?;
         }
+        Commands::Project { command } => {
+            commands::handle_project_command(&client, command, args.output).await?;
+        }
+        Commands::Buildtype { command } => {
+            commands::handle_buildtype_command(&client, command, args.output).await?;
+        }
         Commands::Server { command } => {
             commands::handle_server_command(&client, command, args.output).await?;
         }
