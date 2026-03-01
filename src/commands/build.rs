@@ -592,52 +592,7 @@ async fn handle_build_artifacts(
                 }
             }
         }
-        crate::cli::ArtifactCommands::Download { path, output } => {
-            download_artifact(client, &args.build_id, &path, &output).await?;
-        }
     }
-
-    Ok(())
-}
-
-async fn download_artifact(
-    client: &TeamCityClient,
-    build_id: &str,
-    artifact_path: &str,
-    output_dir: &str,
-) -> Result<()> {
-    let artifact_url = format!(
-        "{}/app/rest/builds/id:{}/artifacts/files/{}",
-        client.config.base_path, build_id, artifact_path
-    );
-
-    println!("Downloading artifact: {}", artifact_path);
-    println!("Output directory: {}", output_dir);
-
-    let response = client
-        .config
-        .client
-        .get(&artifact_url)
-        .send()
-        .await
-        .context("Failed to download artifact")?;
-
-    if !response.status().is_success() {
-        anyhow::bail!("Failed to download artifact: HTTP {}", response.status());
-    }
-
-    let file_name = artifact_path.rsplit('/').next().unwrap_or(artifact_path);
-    let output_path = format!("{}/{}", output_dir.trim_end_matches('/'), file_name);
-
-    let content = response
-        .bytes()
-        .await
-        .context("Failed to read artifact content")?;
-
-    std::fs::create_dir_all(output_dir).context("Failed to create output directory")?;
-    std::fs::write(&output_path, &content).context("Failed to write artifact file")?;
-
-    println!("Artifact downloaded to: {}", output_path);
 
     Ok(())
 }
