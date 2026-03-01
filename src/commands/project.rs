@@ -1,9 +1,9 @@
+use crate::client::TeamCityClient;
+use crate::output;
 use anyhow::{Context, Result};
 use api::apis::build_type_api;
 use api::apis::project_api;
 use api::models::Projects;
-use crate::client::TeamCityClient;
-use crate::output;
 
 pub struct ProjectListArgs {
     pub parent: Option<String>,
@@ -76,16 +76,14 @@ async fn handle_project_list(
     args: ProjectListArgs,
     output_format: crate::cli::OutputFormat,
 ) -> Result<()> {
-
     let projects = if let Some(parent) = &args.parent {
-        project_api::get_project(&client.config,parent, None)
+        project_api::get_project(&client.config, parent, None)
             .await
             .map(|project| match project.projects {
                 None => Projects::default(),
                 Some(val) => *val,
             })
             .context("Failed to fetch subprojects")?
-
     } else {
         project_api::get_all_projects(&client.config, None, None)
             .await

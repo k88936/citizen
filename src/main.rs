@@ -46,7 +46,12 @@ async fn main() -> Result<()> {
             interactive::run_interactive_mode(&client).await?;
         }
         Commands::Completion { shell } => {
-            generate(shell, &mut cli::Cli::command(), "citizen", &mut std::io::stdout());
+            generate(
+                shell,
+                &mut cli::Cli::command(),
+                "citizen",
+                &mut std::io::stdout(),
+            );
         }
     }
 
