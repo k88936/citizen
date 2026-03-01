@@ -99,7 +99,7 @@ async fn handle_project_list(
 
     match output_format {
         crate::cli::OutputFormat::Table => {
-            println!("{}", output::format_projects_table(&projects));
+            println!("{}", output::format_projects_tree(&projects));
         }
         crate::cli::OutputFormat::Json => {
             println!("{}", serde_json::to_string_pretty(&projects)?);

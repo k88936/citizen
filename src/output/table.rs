@@ -392,56 +392,107 @@ pub fn format_queued_build_details(build: &Build) -> String {
     details.join("\n")
 }
 
-#[derive(Tabled)]
-struct ProjectRow {
-    #[tabled(rename = "ID")]
-    id: String,
-    #[tabled(rename = "Name")]
-    name: String,
-    #[tabled(rename = "Parent")]
-    parent: String,
-    #[tabled(rename = "Archived")]
-    archived: String,
-}
+pub fn format_projects_tree(projects: &Projects) -> String {
+    let project_list = match &projects.project {
+        Some(p) if !p.is_empty() => p,
+        _ => return "No projects found".to_string(),
+    };
 
-pub fn format_projects_table(projects: &Projects) -> String {
-    let rows: Vec<ProjectRow> = projects
-        .project
-        .as_ref()
-        .map(|p| {
-            p.iter()
-                .map(|project| ProjectRow {
-                    id: project.id.clone().unwrap_or_else(|| "N/A".to_string()),
-                    name: project.name.clone().unwrap_or_else(|| "N/A".to_string()),
-                    parent: project
-                        .parent_project_id
-                        .clone()
-                        .unwrap_or_else(|| "_Root".to_string()),
-                    archived: project
-                        .archived
-                        .map(|a| {
-                            if a {
-                                "Yes".to_string()
-                            } else {
-                                "No".to_string()
-                            }
-                        })
-                        .unwrap_or_else(|| "No".to_string()),
-                })
-                .collect()
+    let mut result = String::new();
+    let mut sorted: Vec<_> = project_list.iter().collect();
+    sorted.sort_by(|a, b| {
+        a.name
+            .as_ref()
+            .unwrap_or(&String::new())
+            .to_lowercase()
+            .cmp(&b.name.as_ref().unwrap_or(&String::new()).to_lowercase())
+    });
+
+    let parent_ids: std::collections::HashSet<_> = project_list
+        .iter()
+        .filter_map(|p| p.id.as_ref())
+        .cloned()
+        .collect();
+
+    let root_projects: Vec<_> = sorted
+        .iter()
+        .filter(|p| {
+            p.parent_project_id
+                .as_ref()
+                .map(|id| id == "_Root" || !parent_ids.contains(id))
+                .unwrap_or(true)
         })
-        .unwrap_or_default();
+        .collect();
 
-    if rows.is_empty() {
-        return "No projects found".to_string();
+    for (i, project) in root_projects.iter().enumerate() {
+        let is_last = i == root_projects.len() - 1;
+        format_project_tree_recursive(project, &sorted, "", is_last, &mut result, &parent_ids);
     }
 
-    let mut table = Table::new(rows);
-    table
-        .with(Style::psql())
-        .with(Modify::new(Rows::new(1..)).with(Alignment::left()));
+    result.trim_end().to_string()
+}
 
-    table.to_string()
+fn format_project_tree_recursive(
+    project: &api::models::Project,
+    all_projects: &[&api::models::Project],
+    prefix: &str,
+    is_last: bool,
+    result: &mut String,
+    parent_ids: &std::collections::HashSet<String>,
+) {
+    let connector = if is_last { "└── " } else { "├── " };
+    let name = project.name.as_deref().unwrap_or("N/A");
+    let id = project.id.as_deref().unwrap_or("N/A");
+    let archived_marker = if project.archived.unwrap_or(false) {
+        " [archived]"
+    } else {
+        ""
+    };
+
+    result.push_str(&format!(
+        "{}{}{}{} ({})\n",
+        prefix,
+        connector,
+        name,
+        archived_marker,
+        id.dimmed()
+    ));
+
+    let project_id = match &project.id {
+        Some(id) => id,
+        None => return,
+    };
+
+    let mut children: Vec<_> = all_projects
+        .iter()
+        .filter(|p| p.parent_project_id.as_ref() == Some(project_id))
+        .collect();
+
+    children.sort_by(|a, b| {
+        a.name
+            .as_ref()
+            .unwrap_or(&String::new())
+            .to_lowercase()
+            .cmp(&b.name.as_ref().unwrap_or(&String::new()).to_lowercase())
+    });
+
+    let child_prefix = if is_last {
+        format!("{}    ", prefix)
+    } else {
+        format!("{}│   ", prefix)
+    };
+
+    for (i, child) in children.iter().enumerate() {
+        let child_is_last = i == children.len() - 1;
+        format_project_tree_recursive(
+            child,
+            all_projects,
+            &child_prefix,
+            child_is_last,
+            result,
+            parent_ids,
+        );
+    }
 }
 
 pub fn format_project_details(project: &Project) -> String {
