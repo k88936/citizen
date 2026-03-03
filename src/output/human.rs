@@ -434,8 +434,8 @@ pub fn format_projects_tree(projects: &Projects) -> String {
 }
 
 fn format_project_tree_recursive(
-    project: &api::models::Project,
-    all_projects: &[&api::models::Project],
+    project: &Project,
+    all_projects: &[&Project],
     prefix: &str,
     is_last: bool,
     result: &mut String,
