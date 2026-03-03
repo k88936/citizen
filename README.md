@@ -10,12 +10,12 @@ cargo install --path .
 
 ## Configuration
 
-Create a `citizen.toml` file in your current directory or home directory:
+Create a `citizen.toml` file in your current directory (higher priority) or home directory:
 
 ```toml
 [default]
-server_url = "https://teamcity.example.com"
-token = "your-api-token"
+server_url="https://teamcity.jetbrains.com"
+token="generate a token for your user in My Settings & Tools | Access Tokens in TeamCity."
 
 [profile.work]
 server_url = "https://teamcity.work.example.com"
