@@ -1,4 +1,5 @@
 use anyhow::{Context, Result};
+use inquire::{Password, Text};
 use serde::{Deserialize, Serialize};
 use std::env;
 use std::path::PathBuf;
@@ -57,5 +58,51 @@ impl Config {
             );
 
         (server, token)
+    }
+
+    pub fn run_setup_wizard() -> Result<PathBuf> {
+        let existing = Self::load().unwrap_or_default();
+
+        let default_server = existing
+            .server_url
+            .or_else(|| env::var("TEAMCITY_URL").ok())
+            .unwrap_or_else(|| "https://teamcity.jetbrains.com".to_string());
+
+        let server_url = Text::new("TeamCity server URL:")
+            .with_default(&default_server)
+            .prompt()?;
+
+        let token = Password::new("TeamCity token:")
+            .without_confirmation()
+            .prompt()?;
+
+        let config = Config {
+            server_url: Some(server_url),
+            token: Some(token),
+        };
+
+        config.save_to_home()
+    }
+
+    pub fn save_to_home(&self) -> Result<PathBuf> {
+        let path = Self::home_config_path()?;
+        let content = toml::to_string(self).with_context(|| "Failed to serialize config")?;
+        std::fs::write(&path, content)
+            .with_context(|| format!("Failed to write config file: {:?}", path))?;
+        Ok(path)
+    }
+
+    fn home_config_path() -> Result<PathBuf> {
+        const CONFIG_FILE: &str = "citizen.toml";
+
+        if let Ok(home) = env::var("HOME") {
+            return Ok(PathBuf::from(home).join(CONFIG_FILE));
+        }
+
+        if let Ok(profile) = env::var("USERPROFILE") {
+            return Ok(PathBuf::from(profile).join(CONFIG_FILE));
+        }
+
+        anyhow::bail!("Could not determine home directory from HOME or USERPROFILE");
     }
 }

@@ -53,6 +53,7 @@ pub enum Commands {
     },
     #[command(alias = "i")]
     Interactive,
+    SetupWizard,
     Completion {
         shell: Shell,
     },

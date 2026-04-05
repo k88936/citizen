@@ -24,6 +24,12 @@ export TEAMCITY_URL="https://teamcity.example.com"
 export TEAMCITY_TOKEN="your-api-token"
 ```
 
+Or run the interactive setup wizard to save defaults in your home config (`$HOME/citizen.toml`, fallback: `$USERPROFILE/citizen.toml`):
+
+```bash
+citizen setup-wizard
+```
+
 ## Usage
 
 ```bash
