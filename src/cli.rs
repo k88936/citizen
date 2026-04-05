@@ -6,9 +6,6 @@ use clap_complete::Shell;
 #[command(about = "A CLI tool for TeamCity", long_about = None)]
 #[command(version)]
 pub struct Cli {
-    #[arg(short, long, env = "TEAMCITY_PROFILE")]
-    pub profile: Option<String>,
-
     #[arg(short = 'u', long, env = "TEAMCITY_URL")]
     pub server: Option<String>,
 

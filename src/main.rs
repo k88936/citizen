@@ -15,11 +15,7 @@ async fn main() -> Result<()> {
     let args = cli::Cli::parse();
 
     let config = config::Config::load()?;
-    let (server_url, token) = config.resolve(
-        args.server.as_deref(),
-        args.token.as_deref(),
-        args.profile.as_deref(),
-    );
+    let (server_url, token) = config.resolve(args.server.as_deref(), args.token.as_deref());
 
     let client = client::TeamCityClient::new(&server_url, &token)?;
 
